@@ -5,6 +5,15 @@
 **Status**: Draft
 **Input**: User description: "Target audience: University students, professionals transitioning to robotics, educators teaching AI/robotics courses Focus: Practical implementation of Physical AI systems using ROS 2, Gazebo, NVIDIA Isaac, and humanoid robotics Success criteria: - Readers can set up complete Physical AI development environment - Implements 4+ working simulations across different modules - Includes complete capstone project with voice-controlled humanoid - RAG chatbot successfully answers technical questions from book content - Personalization features adapt content based on user background - Translation feature to Urdu works seamlessly Constraints: - Must use Spec-Kit Plus and Claude Code for development - Must implement RAG chatbot with OpenAI Agents/ChatKit SDKs - Database: Neon Serverless Postgres + Qdrant Cloud Free Tier - Authentication: Better-auth with user profiling - Deployment: GitHub Pages for book, separate deployment for chatbot backend - Timeline: Complete by Nov 30, 2025, 6:00 PM Features to implement: 1. Book with 4 modules covering course curriculum 2. RAG chatbot with text selection capability 3. User authentication with background profiling 4. Content personalization per chapter 5. Urdu translation feature 6. Reusable subagents and agent skills (for bonus points) Not building: - Full commercial robot manufacturing guide - Deep dive into single vendor's proprietary SDK - Complete physics engine implementation - Hardware manufacturing instructions"
 
+## Clarifications
+
+### Session 2025-12-01
+- Q: How should content personalization be implemented based on user background (beginner, intermediate, expert)? → A: Use a rules-based engine that adjusts content visibility. Beginners see foundational concepts, experts see advanced sections, and intermediate users see a balance of both.
+- Q: How should the RAG chatbot's accuracy be measured? → A: Accuracy will be measured against a predefined test set of 100 technical questions, with "correctly" defined as responses matching expert-validated answers (human evaluation).
+- Q: What is the expected quality standard for Urdu translation? → A: Translation quality will be evaluated by a human expert using a standard Translation Quality Assessment (TQA) metric, targeting a score of 95% or higher for fluency, accuracy, and terminology.
+- Q: How should "reusable intelligence" for bonus points be defined? → A: Reusable intelligence refers to subagents or skills that can be independently developed, tested, and integrated into multiple parts of the textbook or chatbot functionalities (e.g., a "physics query" subagent usable in both the book and the chatbot).
+- Q: How should the textbook address potential hardware limitations for readers who may not have access to the specified hardware for simulations? → A: Provide clear instructions for setting up cloud-based simulation environments (e.g., AWS RoboMaker, NVIDIA Omniverse Cloud) or virtualized development environments.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Read the AI Textbook (Priority: P1)
@@ -46,6 +55,8 @@ As a registered user, I want the content to be personalized based on my backgrou
 **Acceptance Scenarios**:
 1. **Given** I am logged in and have set my background as "beginner", **When** I read a chapter, **Then** I see more explanations and simpler examples.
 2. **Given** I am logged in and have set my background as "expert", **When** I read a chapter, **Then** I see more advanced topics and complex examples.
+3. **Given** I am logged in and have set my background as "intermediate", **When** I read a chapter, **Then** I see a balanced mix of foundational and advanced content.
+
 
 ---
 
@@ -74,6 +85,7 @@ As a reader who is more comfortable with Urdu, I want to be able to translate th
 - **FR-002**: System MUST have a RAG chatbot with text selection capability.
 - **FR-003**: System MUST support user authentication with background profiling using "Better-auth".
 - **FR-004**: System MUST personalize content per chapter based on user background.
+- **FR-004a**: Personalization MUST be implemented using a rules-based engine that adjusts content visibility based on the user's background (beginner, intermediate, expert).
 - **FR-005**: System MUST provide a feature to translate content to Urdu.
 - **FR-006**: The development MUST use Spec-Kit Plus and Claude Code.
 - **FR-007**: The RAG chatbot MUST be implemented with OpenAI Agents/ChatKit SDKs.
@@ -83,7 +95,8 @@ As a reader who is more comfortable with Urdu, I want to be able to translate th
 - **FR-011**: The project MUST be completed by Nov 30, 2025, 6:00 PM.
 - **FR-012**: The book MUST include at least 4 working simulations across different modules.
 - **FR-013**: The book MUST include a complete capstone project with a voice-controlled humanoid.
-- **FR-014**: Reusable subagents and agent skills SHOULD be implemented.
+- **FR-014**: Reusable subagents and agent skills SHOULD be implemented. This refers to subagents or skills that can be independently developed, tested, and integrated into multiple parts of the textbook or chatbot functionalities (e.g., a "physics query" subagent usable in both the book and the chatbot).
+- **FR-015**: The textbook MUST provide clear instructions for setting up cloud-based simulation environments (e.g., AWS RoboMaker, NVIDIA Omniverse Cloud) or virtualized development environments to address hardware limitations.
 
 ### Key Entities *(include if feature involves data)*
 
@@ -100,6 +113,6 @@ As a reader who is more comfortable with Urdu, I want to be able to translate th
 - **SC-001**: Readers can set up a complete Physical AI development environment by following the instructions in the book.
 - **SC-002**: The book implements at least 4 working simulations across different modules.
 - **SC-003**: The book includes a complete capstone project with a voice-controlled humanoid.
-- **SC-004**: The RAG chatbot successfully answers at least 90% of technical questions from the book content correctly.
+- **SC-004**: The RAG chatbot successfully answers at least 90% of technical questions from the book content correctly. Accuracy will be measured against a predefined test set of 100 technical questions, with "correctly" defined as responses matching expert-validated answers (human evaluation).
 - **SC-005**: Personalization features adapt content based on user background, leading to a 15% increase in user engagement metrics.
-- **SC-006**: The translation feature to Urdu works seamlessly with a latency of less than 2 seconds.
+- **SC-006**: The translation feature to Urdu works seamlessly with a latency of less than 2 seconds. Translation quality will be evaluated by a human expert using a standard Translation Quality Assessment (TQA) metric, targeting a score of 95% or higher for fluency, accuracy, and terminology.
