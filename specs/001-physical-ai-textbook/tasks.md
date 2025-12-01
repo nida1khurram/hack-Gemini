@@ -7,9 +7,9 @@
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 [P] Initialize Docusaurus frontend project in `frontend/`
-- [ ] T002 [P] Initialize FastAPI backend project in `backend/`
-- [ ] T003 [P] Configure linting and formatting tools for both projects
+- [X] T001 [P] Initialize Docusaurus frontend project in `frontend/`
+- [X] T002 [P] Initialize FastAPI backend project in `backend/`
+- [X] T003 [P] Configure linting and formatting tools for both projects
 
 ---
 
@@ -17,12 +17,12 @@
 
 **Purpose**: Core infrastructure that MUST be complete before ANY user story can be implemented
 
-- [ ] T004 [P] Create database models in `backend/src/models/` based on `data-model.md`
-- [ ] T005 [P] Configure database connection to Neon Postgres in `backend/src/database.py`
-- [ ] T006 [P] Configure vector database connection to Qdrant in `backend/src/vector_db.py`
-- [ ] T007 Implement user registration and login endpoints in `backend/src/api/auth.py`
-- [ ] T008 [P] Implement user authentication middleware using Better-auth in `backend/src/middleware/auth.py`
-- [ ] T009 [P] Set up basic API routes and middleware structure in `backend/src/main.py`
+- [X] T004 [P] Create database models in `backend/src/models/` based on `data-model.md`
+- [X] T005 [P] Configure database connection to Neon Postgres in `backend/src/database.py`
+- [X] T006 [P] Configure vector database connection to Qdrant in `backend/src/vector_db.py`
+- [X] T007 Implement user registration and login endpoints in `backend/src/api/auth.py`
+- [X] T008 [P] Implement user authentication middleware using Better-auth in `backend/src/middleware/auth.py`
+- [X] T009 [P] Set up basic API routes and middleware structure in `backend/src/main.py`
 
 ---
 
@@ -34,10 +34,10 @@
 
 ### Implementation for User Story 1
 
-- [ ] T010 [P] [US1] Create Docusaurus pages for the 4 modules in `frontend/docs/`
-- [ ] T011 [P] [US1] Create Docusaurus pages for the 15 chapters in `frontend/docs/`
-- [ ] T012 [P] [US1] Add placeholder content for each chapter
-- [ ] T013 [US1] Implement navigation between chapters and modules in `frontend/sidebars.js`
+- [X] T010 [P] [US1] Create Docusaurus pages for the 4 modules in `frontend/docs/`
+- [X] T011 [P] [US1] Create Docusaurus pages for the 15 chapters in `frontend/docs/`
+- [X] T012 [P] [US1] Add placeholder content for each chapter
+- [X] T013 [US1] Implement navigation between chapters and modules in `frontend/sidebars.js`
 
 ---
 
@@ -49,10 +49,10 @@
 
 ### Implementation for User Story 2
 
-- [ ] T014 [P] [US2] Implement the RAG chatbot service in `backend/src/services/chatbot_service.py`
-- [ ] T015 [US2] Create the `/chatbot/query` API endpoint in `backend/src/api/chatbot.py`
-- [ ] T016 [P] [US2] Develop the frontend chatbot component in `frontend/src/components/Chatbot.js`
-- [ ] T017 [US2] Integrate the chatbot component with the textbook pages
+- [X] T014 [P] [US2] Implement the RAG chatbot service in `backend/src/services/chatbot_service.py`
+- [X] T015 [US2] Create the `/chatbot/query` API endpoint in `backend/src/api/chatbot.py`
+- [X] T016 [P] [US2] Develop the frontend chatbot component in `frontend/src/components/Chatbot.js`
+- [X] T017 [US2] Integrate the chatbot component with the textbook pages
 
 ---
 
