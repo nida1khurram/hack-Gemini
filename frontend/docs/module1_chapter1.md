@@ -1,3 +1,5 @@
+import PythonRunner from '@site/src/components/PythonRunner';
+
 # Introduction to ROS 2
 
 ## Learning Objectives
@@ -101,6 +103,12 @@ Run the publisher:
 ```bash
 ros2 run my_ros2_package my_publisher
 ```
+
+### Try it Yourself!
+<PythonRunner code={`print("Hello from Pyodide!")
+a = 10
+b = 20
+print(f"The sum of a and b is: {a + b}")`} />
 
 ## Code Example: Creating a Simple Subscriber
 

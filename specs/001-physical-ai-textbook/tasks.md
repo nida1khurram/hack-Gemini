@@ -89,7 +89,7 @@
 **Purpose**: Improvements that affect multiple user stories
 
 - [X] T024 Write the actual content for the textbook
-- [ ] T025 Add code examples and simulations
+- [X] T025 Add code examples and simulations
 - [ ] T026 Complete the capstone project
 - [X] T027 Perform testing and quality validation
 - [ ] T028 Deploy the frontend and backend

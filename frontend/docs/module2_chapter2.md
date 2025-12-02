@@ -1,3 +1,5 @@
+import RobotArm2D from '@site/src/components/RobotArm2D';
+
 # Kinematics and Dynamics for Humanoids
 
 ## Learning Objectives
@@ -40,6 +42,12 @@ Common methods for solving IK include:
 *   **Numerical Solutions:** Iterative methods (e.g., Jacobian-based inverse kinematics, optimization-based methods) that approximate the solution. These are more general but computationally intensive.
 
 IK is critical for tasks like grasping objects, walking (placing feet at desired locations), and balancing.
+
+### Interactive 2D Robot Arm Simulation
+
+Explore forward kinematics with this interactive 2D robot arm. Adjust the joint angles to see how the end-effector position changes!
+
+<RobotArm2D />
 
 ## Robot Dynamics
 

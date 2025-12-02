@@ -27,7 +27,11 @@
     "prettier": "^3.7.3",
     "prism-react-renderer": "^2.3.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "pyodide": "~0.25.0",
+    "@uiw/react-textarea-code-editor": "^2.1.0",
+    "p5": "^1.7.0",
+    "@p5-wrapper/react": "^4.4.1"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "3.9.2",
