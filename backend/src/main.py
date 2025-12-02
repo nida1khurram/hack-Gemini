@@ -1,7 +1,9 @@
 from fastapi import FastAPI, Depends 
 from .database import Base, engine 
 from .api import auth 
-from .api import chatbot # Import the chatbot router
+from .api import chatbot 
+from .api import user 
+from .api import translation # Import the translation router
 from .middleware.auth import get_current_user 
 from . import models 
 from typing import Annotated 
@@ -14,7 +16,9 @@ def startup_event():
     Base.metadata.create_all(bind=engine)
 
 app.include_router(auth.router, prefix="/auth", tags=["auth"]) 
-app.include_router(chatbot.router, prefix="/chatbot", tags=["chatbot"]) # Include the chatbot router
+app.include_router(chatbot.router, prefix="/chatbot", tags=["chatbot"]) 
+app.include_router(user.router, prefix="/user", tags=["user"]) 
+app.include_router(translation.router, prefix="/translate", tags=["translation"]) # Include the translation router
 
 @app.get("/")
 async def read_root():
