@@ -8,15 +8,20 @@ const config: Config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://your-github-username.github.io', // Placeholder for GitHub Pages
+  url: 'https://nida1khurram.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<project-name>/'
-  baseUrl: '/physical-ai-humanoid-robotics/', // Adjust based on your repo name
+  baseUrl: '/hack-Gemini-cli/',
+  trailingSlash: true, // Add this line to explicitly handle trailing slashes
+
+  customFields: {
+    backendUrl: process.env.BACKEND_URL || 'http://localhost:8000', // Default to localhost for development
+  },
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'your-github-org-or-username', // Usually your GitHub org/user name.
-  projectName: 'physical-ai-humanoid-robotics', // Usually your repo name.
+  organizationName: 'nida1khurram', // Usually your GitHub org/user name.
+  projectName: 'hack-Gemini-cli', // Usually your repo name.
   deploymentBranch: 'gh-pages', // The branch Docusaurus will deploy to
 
   onBrokenLinks: 'throw',
@@ -41,13 +46,14 @@ const config: Config = {
           editUrl:
             'https://github.com/your-github-org-or-username/physical-ai-humanoid-robotics/tree/main/frontend/',
         },
-        blog: {
+        blog: { // Re-enable blog plugin
           showReadingTime: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/your-github-org-or-username/physical-ai-humanoid-robotics/tree/main/frontend/',
         },
+
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -79,7 +85,7 @@ const config: Config = {
         },
         {
           label: 'Login', // Custom login button
-          to: '/login', // You might want to create a login page or link to an auth service
+          to: '/docs/login', // You might want to create a login page or link to an auth service
           position: 'right',
           className: 'navbar-login-btn', // Optional: for custom styling
         },
@@ -156,12 +162,12 @@ const config: Config = {
 
   // Plugin for local search
   plugins: [
-    [
-      require.resolve('@easyops-cn/docusaurus-search-local'),
-      {
-        hashed: true,
-      },
-    ],
+    // [
+    //   require.resolve('@easyops-cn/docusaurus-search-local'),
+    //   {
+    //     hashed: true,
+    //   },
+    // ],
   ],
 };
 

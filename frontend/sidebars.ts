@@ -4,7 +4,7 @@ const sidebars: SidebarsConfig = {
   tutorialSidebar: [
     {
       type: 'category',
-      label: 'ROS 2',
+      label: 'Module 1: Introduction to ROS 2',
       link: {type: 'doc', id: 'module1'},
       items: ['module1_chapter1', 'module1_chapter2', 'module1_chapter3', 'module1_chapter4'],
     },
@@ -12,7 +12,12 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Humanoid Robotics',
       link: {type: 'doc', id: 'module2'},
-      items: ['module2_chapter1', 'module2_chapter2', 'module2_chapter3', 'module2_chapter4'],
+      items: [
+        {type: 'doc', id: 'module2_chapter1', label: 'Introduction to Humanoid Robotics'},
+        {type: 'doc', id: 'module2_chapter2', label: 'Robot Kinematics'},
+        'module2_chapter3',
+        'module2_chapter4'
+      ],
     },
     {
       type: 'category',

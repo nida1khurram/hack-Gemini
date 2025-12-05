@@ -13,6 +13,9 @@ function usePyodide() {
   const pyodideRef = useRef<any>(null); // Ref to store the pyodide instance
 
   useEffect(() => {
+    if (typeof window === 'undefined') { // Guard for server-side rendering
+      return;
+    }
     const load = async () => {
       try {
         // @ts-ignore - pyodide is loaded globally by the script

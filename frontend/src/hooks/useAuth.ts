@@ -29,14 +29,18 @@ const useAuth = (): AuthState => {
   const [error, setError] = useState<string | null>(null);
 
   const setAuthData = useCallback((token: string) => {
-    localStorage.setItem('access_token', token);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('access_token', token);
+    }
     setIsAuthenticated(true);
     // Fetch user profile immediately after login
     fetchUserProfile();
-  }, []);
+  }, [fetchUserProfile]);
 
   const clearAuthData = useCallback(() => {
-    localStorage.removeItem('access_token');
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('access_token');
+    }
     setIsAuthenticated(false);
     setUser(null);
   }, []);
@@ -45,7 +49,10 @@ const useAuth = (): AuthState => {
     setLoading(true);
     setError(null);
     try {
-      const token = localStorage.getItem('access_token');
+      let token = null;
+      if (typeof window !== 'undefined') {
+        token = localStorage.getItem('access_token');
+      }
       if (!token) {
         clearAuthData();
         return;

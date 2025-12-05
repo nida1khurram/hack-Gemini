@@ -1,0 +1,80 @@
+.loginFormContainer {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: var(--ifm-background-color); /* Docusaurus theme background */
+}
+
+.loginFormContainer h2 {
+  text-align: center;
+  color: var(--ifm-color-primary-darkest);
+  margin-bottom: 20px;
+}
+
+.formGroup {
+  margin-bottom: 15px;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: var(--ifm-font-color-base);
+}
+
+.formGroup input[type="text"],
+.formGroup input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--ifm-color-gray-300);
+  border-radius: 4px;
+  box-sizing: border-box; /* Include padding in width */
+  background-color: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+}
+
+.errorMessage {
+  color: var(--ifm-color-danger);
+  background-color: var(--ifm-color-danger-light);
+  border: 1px solid var(--ifm-color-danger-dark);
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.loginButton {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--ifm-color-primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.loginButton:hover:not(:disabled) {
+  background-color: var(--ifm-color-primary-dark);
+}
+
+.loginButton:disabled {
+  background-color: var(--ifm-color-gray-400);
+  cursor: not-allowed;
+}
+
+.loginSuccess {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid var(--ifm-color-success);
+  border-radius: 8px;
+  background-color: var(--ifm-color-success-light);
+  color: var(--ifm-color-success-dark);
+  text-align: center;
+  font-weight: bold;
+}
