@@ -29,7 +29,9 @@ def get_password_hash(password):
     return pwd_context.hash(password)
 
 # JWT settings
-SECRET_KEY = os.getenv("SECRET_KEY", "your-secret-key") # TODO: Change this to a strong secret key from env var
+SECRET_KEY = os.getenv("SECRET_KEY")
+if SECRET_KEY is None:
+    raise ValueError("SECRET_KEY environment variable not set. Please set a strong secret key.")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 

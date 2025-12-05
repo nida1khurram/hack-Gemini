@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import axios from 'axios'; // Assuming axios is installed
+import axios from 'axios'; 
+import useAuth from '../hooks/useAuth'; // Import useAuth hook
 
 interface ChatbotProps {
   selectedText?: string;
@@ -8,7 +9,9 @@ interface ChatbotProps {
 
 const Chatbot: React.FC<ChatbotProps> = ({ selectedText }) => {
   const { siteConfig } = useDocusaurusContext();
-  const backendUrl = siteConfig.customFields?.backendUrl || 'http://localhost:8000'; // Fallback to localhost
+  const backendUrl = siteConfig.customFields?.backendUrl || 'http://localhost:8000';
+
+  const { isAuthenticated, loading: authLoading, error: authError, fetchUserProfile } = useAuth(); // Use the auth hook
 
   const [query, setQuery] = useState('');
   const [response, setResponse] = useState('');
@@ -24,9 +27,9 @@ const Chatbot: React.FC<ChatbotProps> = ({ selectedText }) => {
     setError('');
     setResponse('');
     try {
-      const token = localStorage.getItem('access_token'); // Assuming token is stored in localStorage
+      const token = localStorage.getItem('access_token'); 
       if (!token) {
-        setError('Please log in to use the chatbot.');
+        setError('Please log in to use the chatbot.'); // This should ideally be caught by useAuth
         setLoading(false);
         return;
       }
@@ -48,6 +51,20 @@ const Chatbot: React.FC<ChatbotProps> = ({ selectedText }) => {
       setLoading(false);
     }
   };
+
+  if (authLoading) {
+    return <div style={{ margin: '20px 0', padding: '15px', border: '1px solid #ccc', borderRadius: '8px' }}>Loading authentication...</div>;
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div style={{ margin: '20px 0', padding: '15px', border: '1px solid #ccc', borderRadius: '8px' }}>
+        <h3>AI Chatbot</h3>
+        <p>Please <a href="/login">log in</a> to use the chatbot functionality.</p> {/* TODO: Create a login page */}
+        {authError && <p style={{ color: 'red' }}>{authError}</p>}
+      </div>
+    );
+  }
 
   return (
     <div style={{ border: '1px solid #ccc', padding: '15px', borderRadius: '8px', margin: '20px 0' }}>

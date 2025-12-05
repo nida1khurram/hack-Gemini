@@ -64,9 +64,9 @@
 
 ### Implementation for User Story 3
 
-- [ ] T018 [P] [US3] Implement the personalization rules engine in `backend/src/services/personalization_service.py`
-- [ ] T019 [US3] Create the `/user/profile` API endpoint in `backend/src/api/user.py`
-- [ ] T020 [US3] Dynamically render content in Docusaurus based on user background
+- [X] T018 [P] [US3] Implement the personalization rules engine in `backend/src/services/personalization_service.py`
+- [X] T019 [US3] Create the `/user/profile` API endpoint in `backend/src/api/user.py`
+- [X] T020 [US3] Dynamically render content in Docusaurus based on user background
 
 ---
 
@@ -78,9 +78,9 @@
 
 ### Implementation for User Story 4
 
-- [ ] T021 [P] [US4] Implement the translation service using OpenAI API in `backend/src/services/translation_service.py`
-- [ ] T022 [US4] Create the `/translate` API endpoint in `backend/src/api/translation.py`
-- [ ] T023 [P] [US4] Add a "Translate to Urdu" button to the frontend
+- [X] T021 [P] [US4] Implement the translation service using OpenAI API in `backend/src/services/translation_service.py`
+- [X] T022 [US4] Create the `/translate` API endpoint in `backend/src/api/translation.py`
+- [X] T023 [P] [US4] Add a "Translate to Urdu" button to the frontend
 
 ---
 
@@ -88,8 +88,8 @@
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T024 Write the actual content for the textbook
-- [ ] T025 Add code examples and simulations
-- [ ] T026 Complete the capstone project
-- [ ] T027 Perform testing and quality validation
+- [X] T024 Write the actual content for the textbook
+- [X] T025 Add code examples and simulations
+- [X] T026 Complete the capstone project
+- [X] T027 Perform testing and quality validation
 - [ ] T028 Deploy the frontend and backend
