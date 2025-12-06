@@ -35,8 +35,8 @@ const LoginForm: React.FC = () => {
         }
       );
 
-      const { access_token } = response.data;
-      auth.login(access_token); // Use the login function from useAuth hook
+      const { access_token, refresh_token } = response.data;
+      auth.login(access_token, refresh_token); // Use the login function from useAuth hook
     } catch (err) {
       console.error('Login failed:', err);
       if (axios.isAxiosError(err) && err.response) {

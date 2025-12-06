@@ -57,13 +57,18 @@ jobs:
       - name: Build
         run: npm run build
 
-      # This step only runs on pushes to the main branch
-      - name: Deploy to GitHub Pages
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        env:
-          # This is a token that Docusaurus needs to push to the gh-pages branch
-          GIT_USER: github-actions[bot]
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          npm run deploy -- --no-fail
+                - name: Check Docusaurus Version
+                  run: npx docusaurus --version
+                  working-directory: ./frontend
+      
+                # This step only runs on pushes to the main branch
+                - name: Deploy to GitHub Pages
+                  if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+                  env:
+                    # This is a token that Docusaurus needs to push to the gh-pages branch
+                    GIT_USER: github-actions[bot]
+                  run: |
+                    git config --global user.name "github-actions[bot]"
+                    git config --global user.email "github-actions[bot]@users.noreply.github.com"
+                    echo "Running npm run deploy with verbose logging..."
+                    npm run deploy --loglevel verbose
