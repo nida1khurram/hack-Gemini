@@ -35,17 +35,44 @@ if SECRET_KEY is None:
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
+REFRESH_TOKEN_SECRET = os.getenv("REFRESH_TOKEN_SECRET")
+if REFRESH_TOKEN_SECRET is None:
+    raise ValueError("REFRESH_TOKEN_SECRET environment variable not set.")
+REFRESH_TOKEN_EXPIRE_MINUTES = int(os.getenv("REFRESH_TOKEN_EXPIRE_MINUTES", 10080)) # Default to 7 days
+
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token") # Corrected tokenUrl
 
-def create_access_token(data: dict, expires_delta: timedelta | None = None):
+def create_token(data: dict, secret_key: str, expires_delta: timedelta | None = None, token_type: str = "access"):
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
     else:
-        expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+        # Default expiry based on token type if not provided
+        if token_type == "access":
+            expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        elif token_type == "refresh":
+            expire = datetime.utcnow() + timedelta(minutes=REFRESH_TOKEN_EXPIRE_MINUTES)
+        else:
+            raise ValueError("Invalid token_type")
+    to_encode.update({"exp": expire, "type": token_type})
+    encoded_jwt = jwt.encode(to_encode, secret_key, algorithm=ALGORITHM)
     return encoded_jwt
+
+def create_access_token(data: dict, expires_delta: timedelta | None = None):
+    return create_token(data, SECRET_KEY, expires_delta, token_type="access")
+
+def create_refresh_token(data: dict, expires_delta: timedelta | None = None):
+    return create_token(data, REFRESH_TOKEN_SECRET, expires_delta, token_type="refresh")
+
+def verify_refresh_token(token: str):
+    try:
+        payload = jwt.decode(token, REFRESH_TOKEN_SECRET, algorithms=[ALGORITHM])
+        token_type: str = payload.get("type")
+        if token_type != "refresh":
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token type")
+        return payload
+    except JWTError:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Could not validate refresh token")
 
 async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Annotated[Session, Depends(get_db_session)]):
     credentials_exception = HTTPException(
@@ -56,7 +83,8 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: An
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
-        if username is None:
+        token_type: str = payload.get("type")
+        if username is None or token_type != "access":
             raise credentials_exception
     except JWTError:
         raise credentials_exception

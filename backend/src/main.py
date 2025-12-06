@@ -1,3 +1,5 @@
+from dotenv import load_dotenv
+
 from fastapi import FastAPI, Depends 
 from .database import Base, engine 
 from .api import auth 
@@ -7,6 +9,8 @@ from .api import translation # Import the translation router
 from .middleware.auth import get_current_user 
 from . import models 
 from typing import Annotated 
+
+load_dotenv()
 
 app = FastAPI()
 

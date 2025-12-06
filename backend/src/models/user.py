@@ -19,6 +19,8 @@ class User(Base):
     username = Column(String, unique=True, index=True)
     email = Column(String, unique=True, index=True)
     hashed_password = Column(String)
+    hashed_refresh_token = Column(String, nullable=True) # New field
+    refresh_token_expires_at = Column(DateTime(timezone=True), nullable=True) # New field
     background = Column(Enum(UserBackground), default=UserBackground.beginner)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
