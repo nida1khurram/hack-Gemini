@@ -1,0 +1,1 @@
+.\.venv\Scripts\python.exe -m uvicorn src.main:app --reload | Tee-Object -FilePath uvicorn.log -Append

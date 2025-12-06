@@ -44,14 +44,15 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/your-github-org-or-username/physical-ai-humanoid-robotics/tree/main/frontend/',
+            'https://github.com/nida1khurram/hack-Gemini/tree/main/',
         },
         blog: { // Re-enable blog plugin
           showReadingTime: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/your-github-org-or-username/physical-ai-humanoid-robotics/tree/main/frontend/',
+          'https://github.com/nida1khurram/hack-Gemini/tree/main/',
+            // 'https://github.com/your-github-org-or-username/physical-ai-humanoid-robotics/tree/main/frontend/',
         },
 
         theme: {
@@ -79,7 +80,7 @@ const config: Config = {
         },
         {to: '/blog', label: 'Blog', position: 'left'},
         {
-          href: 'https://github.com/your-github-org-or-username/physical-ai-humanoid-robotics',
+          href: 'https://github.com/nida1khurram/hack-Gemini/tree/main/',
           label: 'GitHub',
           position: 'right',
         },
@@ -141,7 +142,7 @@ const config: Config = {
             },
             {
               label: 'GitHub',
-              href: 'https://github.com/your-github-org-or-username/physical-ai-humanoid-robotics',
+              href: 'https://github.com/nida1khurram/hack-Gemini/tree/main/',
             },
           ],
         },
