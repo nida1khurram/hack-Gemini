@@ -11,7 +11,7 @@ const config: Config = {
   url: 'https://nida1khurram.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<project-name>/'
-  baseUrl: '/hack-Gemini/',
+  baseUrl: '/',
   trailingSlash: true, // Add this line to explicitly handle trailing slashes
 
   customFields: {
