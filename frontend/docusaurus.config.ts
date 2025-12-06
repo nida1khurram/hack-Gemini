@@ -11,7 +11,7 @@ const config: Config = {
   url: 'https://nida1khurram.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<project-name>/'
-  baseUrl: '/hack-Gemini-cli/',
+  baseUrl: '/hack-Gemini/',
   trailingSlash: true, // Add this line to explicitly handle trailing slashes
 
   customFields: {
@@ -21,7 +21,7 @@ const config: Config = {
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'nida1khurram', // Usually your GitHub org/user name.
-  projectName: 'hack-Gemini-cli', // Usually your repo name.
+  projectName: 'hack-Gemini', // Usually your repo name.
   deploymentBranch: 'gh-pages', // The branch Docusaurus will deploy to
 
   onBrokenLinks: 'throw',
