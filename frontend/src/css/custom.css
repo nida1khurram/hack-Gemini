@@ -23,6 +23,9 @@
   --ifm-hero-background-end: #B3E0F2;
   --ifm-hero-text-color: #1C3D5A;
 
+  --ifm-card-background-color: #FFFFFF;
+  --ifm-color-emphasis-300: #DCE1E6;
+
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 }
@@ -45,6 +48,9 @@
   --ifm-hero-background-start: #1C3D5A;
   --ifm-hero-background-end: #0D1C2A;
   --ifm-hero-text-color: #F0F8FF;
+  
+  --ifm-card-background-color: #242526;
+  --ifm-color-emphasis-300: #404040;
   
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
@@ -101,9 +107,27 @@ a, button {
   text-decoration: underline;
 }
 
+/* Navbar title hover effect */
+.navbar__title {
+  transition: transform 0.3s ease-in-out, text-shadow 0.3s ease-in-out;
+}
+
+.navbar__title:hover {
+  transform: scale(1.05);
+  text-shadow: 0 0 10px var(--ifm-color-primary), 0 0 20px var(--ifm-color-primary);
+}
+
 /* Button hover styles */
 .button--secondary:hover {
   background-color: var(--ifm-color-primary);
   color: var(--ifm-background-color);
   border-color: var(--ifm-color-primary);
+}
+
+/* Hero image styles are now in src/pages/index.module.css */
+
+/* Hero text glow effect */
+.hero__title,
+.hero__subtitle {
+  text-shadow: 0 0 15px var(--ifm-color-primary), 0 0 30px var(--ifm-color-primary);
 }

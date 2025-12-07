@@ -21,3 +21,36 @@
   align-items: center;
   justify-content: center;
 }
+
+.heroContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.heroImage {
+  flex-basis: 40%;
+}
+
+.heroImage img {
+  width: 300px;
+  height: 300px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out; /* Smooth transition for glow and scale */
+}
+
+.heroImage img:hover {
+  box-shadow: 0 0 40px var(--ifm-color-primary), 0 0 80px var(--ifm-color-primary); /* Glow effect using primary color */
+  transform: scale(1.05); /* Scale up on hover */
+}
+
+.heroText {
+  flex-basis: 55%;
+  text-align: left;
+  transition: transform 0.3s ease-in-out;
+}
+
+.heroText:hover {
+  transform: scale(1.05);
+}

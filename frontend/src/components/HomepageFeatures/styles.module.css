@@ -3,9 +3,21 @@
   align-items: center;
   padding: 2rem 0;
   width: 100%;
+  margin-top: 4rem; /* Add space between hero and features */
 }
 
 .featureSvg {
   height: 200px;
   width: 200px;
+}
+
+.moduleCardsRow {
+  display: flex;
+  align-items: stretch; /* Make cards stretch to equal height */
+  margin-bottom: 2rem; /* Add some space below the cards */
+}
+
+.sectionHeading {
+  text-align: center;
+  margin-bottom: 3rem;
 }

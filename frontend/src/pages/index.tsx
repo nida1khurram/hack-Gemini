@@ -12,25 +12,30 @@ function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
-      <div className="container">
-        <Heading as="h1" className="hero__title">
-          Welcome to the Future of Physical AI
-        </Heading>
-        <p className="hero__subtitle">
-          Explore the intersection of artificial intelligence and humanoid robotics.
-        </p>
-        <div className={styles.buttons}>
-          <Link
-            className="button button--secondary button--lg"
-            to="/docs/intro">
-            Explore Modules
-          </Link>
-          <Link
-            className="button button--secondary button--lg"
-            style={{marginLeft: 10}}
-            to="https://github.com/nida1khurram/hack-Gemini/tree/main">
-            View on GitHub
-          </Link>
+      <div className={clsx('container', styles.heroContainer)}>
+        <div className={styles.heroImage}>
+          <img src="/img/home-pic.png" alt="Hero Image" />
+        </div>
+        <div className={styles.heroText}>
+          <Heading as="h1" className="hero__title">
+            Welcome to the Future of Physical AI
+          </Heading>
+          <p className="hero__subtitle">
+            Explore the intersection of artificial intelligence and humanoid robotics.
+          </p>
+          <div className={styles.buttons}>
+            <Link
+              className="button button--secondary button--lg"
+              to="/docs/intro">
+              Start Reading
+            </Link>
+            <Link
+              className="button button--secondary button--lg"
+              style={{marginLeft: 10}}
+              to="https://github.com/nida1khurram/hack-Gemini/tree/main">
+              View on GitHub
+            </Link>
+          </div>
         </div>
       </div>
     </header>
