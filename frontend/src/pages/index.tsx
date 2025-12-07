@@ -14,14 +14,22 @@ function HomepageHeader() {
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
         <Heading as="h1" className="hero__title">
-          {siteConfig.title}
+          Welcome to the Future of Physical AI
         </Heading>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
+        <p className="hero__subtitle">
+          Explore the intersection of artificial intelligence and humanoid robotics.
+        </p>
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
             to="/docs/intro">
-            Docusaurus Tutorial - 5min ⏱️
+            Explore Modules
+          </Link>
+          <Link
+            className="button button--secondary button--lg"
+            style={{marginLeft: 10}}
+            to="https://github.com/nida1khurram/hack-Gemini/tree/main">
+            View on GitHub
           </Link>
         </div>
       </div>
