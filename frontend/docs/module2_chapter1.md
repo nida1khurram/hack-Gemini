@@ -97,3 +97,7 @@ Typically batteries (e.g., LiPo) for mobile operation, providing power to all el
 *   [Boston Dynamics: Atlas](https://www.bostondynamics.com/atlas)
 *   [Honda: ASIMO](https://global.honda/innovation/robotics/ASIMO.html)
 *   [DARPA Robotics Challenge](https://en.wikipedia.org/wiki/DARPA_Robotics_Challenge)
+
+---
+
+<Chatbot />

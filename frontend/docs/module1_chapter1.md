@@ -202,3 +202,7 @@ ros2 run my_ros2_package my_subscriber
 *   [Understanding ROS 2 Topics](https://docs.ros.org/en/humble/Concepts/Basic/Topics/Understanding-Topics.html)
 *   [Understanding ROS 2 Services](https://docs.ros.org/en/humble/Concepts/Basic/Services/Understanding-Services.html)
 *   [Understanding ROS 2 Actions](https://docs.ros.org/en/humble/Concepts/Basic/Actions/Understanding-Actions.html)
+
+---
+
+<Chatbot />

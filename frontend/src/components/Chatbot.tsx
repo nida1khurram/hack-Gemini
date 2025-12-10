@@ -14,7 +14,7 @@ interface ChatMessage {
 
 interface ChatHistoryEntry {
   id: string;
-  messages: ChatMessage[];
+  messages: string | ChatMessage[]; // Can be JSON string or array
 }
 
 const Chatbot: React.FC<ChatbotProps> = ({ selectedText }) => {
@@ -38,7 +38,19 @@ const Chatbot: React.FC<ChatbotProps> = ({ selectedText }) => {
         const histories: ChatHistoryEntry[] = await getChatHistory();
         if (histories && histories.length > 0) {
           // Assuming we display the most recent conversation
-          setChatHistory(histories[0].messages);
+          let messages = histories[0].messages;
+
+          // If messages is a string (JSON), parse it to get the array
+          if (typeof messages === 'string') {
+            try {
+              messages = JSON.parse(messages);
+            } catch (e) {
+              console.error('Failed to parse chat history messages:', e);
+              messages = []; // Fallback to empty array
+            }
+          }
+
+          setChatHistory(messages);
         }
       } catch (err) {
         console.error('Failed to fetch chat history:', err);

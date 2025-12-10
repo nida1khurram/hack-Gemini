@@ -68,9 +68,11 @@ const LoginForm: React.FC = () => {
             id="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            placeholder="testuser"
             required
             disabled={loading}
           />
+          <div className={styles.credentialsHint}>Default: testuser</div>
         </div>
         <div className={styles.formGroup}>
           <label htmlFor="password">Password:</label>
@@ -79,9 +81,11 @@ const LoginForm: React.FC = () => {
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder="testpass123"
             required
             disabled={loading}
           />
+          <div className={styles.credentialsHint}>Default: testpass123</div>
         </div>
         {error && <div className={styles.errorMessage}>{error}</div>}
         <button type="submit" disabled={loading} className={styles.loginButton}>
