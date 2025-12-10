@@ -1,17 +1,17 @@
-import os
+from ..database import settings
 from openai import OpenAI
 
 class TranslationService:
     def __init__(self):
-        self.openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY")) # TODO: Load API key securely
+        self.openai_client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
-    async def translate_to_urdu(self, text: str) -> str:
+    async def translate(self, text: str, target_language: str) -> str:
         try:
             response = self.openai_client.chat.completions.create(
-                model="gpt-3.5-turbo", # TODO: Make model configurable
+                model=settings.TRANSLATION_MODEL,
                 messages=[
-                    {"role": "system", "content": "You are a helpful assistant that translates English to Urdu."},
-                    {"role": "user", "content": f"Translate the following English text to Urdu: {text}"}
+                    {"role": "system", "content": f"You are a helpful assistant that translates English to {target_language}."},
+                    {"role": "user", "content": f"Translate the following English text to {target_language}: {text}"}
                 ]
             )
             return response.choices[0].message.content

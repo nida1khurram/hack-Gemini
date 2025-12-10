@@ -1,17 +1,18 @@
-from sqlalchemy import Column, Integer, String, Text
+from sqlmodel import SQLModel, Field
+from sqlalchemy import String, Text, DateTime, Column
 from sqlalchemy.sql import func
 from pydantic import BaseModel
-from .database import Base
 from datetime import datetime
+from typing import Optional
 
-class Module(Base):
+class Module(SQLModel, table=True):
     __tablename__ = "modules"
 
-    id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, index=True)
-    description = Column(Text, nullable=True)
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+    id: int = Field(default=None, primary_key=True)
+    title: str = Field(sa_column=Column(String, index=True))
+    description: Optional[str] = Field(sa_column=Column(Text, nullable=True))
+    created_at: datetime = Field(sa_column=Column(DateTime(timezone=True), server_default=func.now()))
+    updated_at: Optional[datetime] = Field(sa_column=Column(DateTime(timezone=True), onupdate=func.now()))
 
 class ModuleBase(BaseModel):
     title: str

@@ -1,29 +1,29 @@
-from sqlalchemy import Column, String, Enum, DateTime
-from sqlalchemy.dialects.postgresql import UUID
+from sqlmodel import SQLModel, Field
+from sqlalchemy import String, DateTime, Column
 from sqlalchemy.sql import func
 from pydantic import BaseModel
+from datetime import datetime
 import uuid
 import enum
-
-from .database import Base
+from typing import Optional
 
 class UserBackground(str, enum.Enum):
     beginner = "beginner"
     intermediate = "intermediate"
     expert = "expert"
 
-class User(Base):
+class User(SQLModel, table=True):
     __tablename__ = "users"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    username = Column(String, unique=True, index=True)
-    email = Column(String, unique=True, index=True)
-    hashed_password = Column(String)
-    hashed_refresh_token = Column(String, nullable=True) # New field
-    refresh_token_expires_at = Column(DateTime(timezone=True), nullable=True) # New field
-    background = Column(Enum(UserBackground), default=UserBackground.beginner)
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    username: str = Field(sa_column=Column(String, unique=True, index=True))
+    email: str = Field(sa_column=Column(String, unique=True, index=True))
+    hashed_password: str = Field(sa_column=Column(String))
+    hashed_refresh_token: Optional[str] = Field(sa_column=Column(String, nullable=True))  # New field
+    refresh_token_expires_at: Optional[datetime] = Field(sa_column=Column(DateTime(timezone=True), nullable=True))  # New field
+    background: UserBackground = Field(sa_column=Column(String, default=UserBackground.beginner))
+    created_at: datetime = Field(sa_column=Column(DateTime(timezone=True), server_default=func.now()))
+    updated_at: Optional[datetime] = Field(sa_column=Column(DateTime(timezone=True), onupdate=func.now()))
 
 class UserCreate(BaseModel):
     username: str
@@ -36,8 +36,8 @@ class UserInDB(BaseModel):
     username: str
     email: str
     background: UserBackground
-    created_at: DateTime
-    updated_at: DateTime
+    created_at: datetime
+    updated_at: datetime
 
     class Config:
         from_attributes = True

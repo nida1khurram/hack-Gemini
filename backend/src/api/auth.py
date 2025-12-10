@@ -3,7 +3,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
-from sqlalchemy.orm import Session
+from sqlmodel import Session
 from passlib.context import CryptContext # Import for hashing refresh tokens
 
 from .. import models # Import models module
@@ -16,8 +16,6 @@ from ..middleware.auth import (
 )
 import uuid # Import uuid
 
-# Password hashing for refresh token
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 router = APIRouter()
@@ -68,7 +66,7 @@ async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm,
     )
     
     # Hash and store refresh token in DB
-    user.hashed_refresh_token = pwd_context.hash(refresh_token)
+    user.hashed_refresh_token = get_password_hash(refresh_token)
     user.refresh_token_expires_at = datetime.utcnow() + refresh_token_expires
     db.add(user)
     db.commit()
@@ -107,7 +105,7 @@ async def refresh_access_token(refresh_token: Annotated[str, Depends(oauth2_sche
         raise credentials_exception
 
     # Verify the provided refresh token against the stored hashed one
-    if not pwd_context.verify(refresh_token, user.hashed_refresh_token):
+    if not verify_password(refresh_token, user.hashed_refresh_token):
         raise credentials_exception
     
     # Check if refresh token has expired
@@ -127,7 +125,7 @@ async def refresh_access_token(refresh_token: Annotated[str, Depends(oauth2_sche
     )
 
     # Store the new hashed refresh token and its expiry in the DB
-    user.hashed_refresh_token = pwd_context.hash(new_refresh_token)
+    user.hashed_refresh_token = get_password_hash(new_refresh_token)
     user.refresh_token_expires_at = datetime.utcnow() + refresh_token_expires
     db.add(user)
     db.commit()

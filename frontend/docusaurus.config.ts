@@ -15,8 +15,13 @@ const config: Config = {
   trailingSlash: true, // Add this line to explicitly handle trailing slashes
 
   customFields: {
-    backendUrl: process.env.BACKEND_URL || 'http://localhost:8000', // Default to localhost for development
+    backendUrl: process.env.BACKEND_URL || 'http://localhost:8002', // Default to localhost for development
   },
+
+  // Inject the BACKEND_URL as a global variable for the browser
+  clientModules: [
+    './src/clientModules/injectBackendUrl.js', // Custom client module to inject BACKEND_URL
+  ],
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
