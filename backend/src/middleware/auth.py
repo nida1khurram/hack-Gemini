@@ -3,42 +3,43 @@ from typing import Annotated
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from sqlalchemy.orm import Session
+from sqlmodel import Session
 from jose import jwt, JWTError
 from passlib.context import CryptContext
 
 from .. import models # Import models module
-from ..database import get_db, Base, engine
-import os # For environment variables
+from ..database import get_db, Base, engine, settings, SessionLocal # Import SessionLocal
 
 # Dependency for database session (needed by get_current_user)
 def get_db_session():
-    db = Session(bind=engine)
+    db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
 
-# Password hashing
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# Password hashing - Configure for Windows compatibility
+pwd_context = CryptContext(
+    schemes=["pbkdf2_sha256", "bcrypt", "plaintext"],
+    deprecated="auto",
+    bcrypt__rounds=12,
+)
 
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
 
 def get_password_hash(password):
-    return pwd_context.hash(password)
+    # Truncate password to 72 bytes to comply with bcrypt limitation
+    truncated_password = password[:72] if len(password) > 72 else password
+    return pwd_context.hash(truncated_password)
 
 # JWT settings
-SECRET_KEY = os.getenv("SECRET_KEY")
-if SECRET_KEY is None:
-    raise ValueError("SECRET_KEY environment variable not set. Please set a strong secret key.")
+SECRET_KEY = settings.SECRET_KEY
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
-REFRESH_TOKEN_SECRET = os.getenv("REFRESH_TOKEN_SECRET")
-if REFRESH_TOKEN_SECRET is None:
-    raise ValueError("REFRESH_TOKEN_SECRET environment variable not set.")
-REFRESH_TOKEN_EXPIRE_MINUTES = int(os.getenv("REFRESH_TOKEN_EXPIRE_MINUTES", 10080)) # Default to 7 days
+REFRESH_TOKEN_SECRET = settings.REFRESH_TOKEN_SECRET
+REFRESH_TOKEN_EXPIRE_MINUTES = settings.REFRESH_TOKEN_EXPIRE_MINUTES
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token") # Corrected tokenUrl
 

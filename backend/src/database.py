@@ -1,12 +1,39 @@
+from pydantic_settings import BaseSettings
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.orm import sessionmaker
+from sqlmodel import SQLModel
 
-# TODO: Replace with your actual Neon Postgres DATABASE_URL connection string
-DATABASE_URL = "postgresql://user:password@host:port/dbname" 
+class Settings(BaseSettings):
+    DATABASE_URL: str
+    SECRET_KEY: str
+    REFRESH_TOKEN_SECRET: str
+    REFRESH_TOKEN_EXPIRE_MINUTES: int
+    OPENAI_API_KEY: str
+    TRANSLATION_MODEL: str
+    GEMINI_API_KEY: str
+    GEMINI_CHAT_MODEL: str
+    QDRANT_HOST: str
+    QDRANT_PORT: int
+    QDRANT_API_KEY: str
+    QDRANT_URL: str = "http://localhost:6333"  # Default value
+    Qdrant_END_POINT: str  # This is the variable name in your .env
+    REDIS_HOST: str
+    REDIS_PORT: int
 
-engine = create_engine(DATABASE_URL)
+    class Config:
+        env_file = ".env"
+
+settings = Settings()
+
+# Configure the engine based on the database type
+if settings.DATABASE_URL.startswith("sqlite"):
+    # For SQLite, we need to disable check_same_thread for async operations
+    engine = create_engine(settings.DATABASE_URL, connect_args={"check_same_thread": False})
+else:
+    # For other databases (PostgreSQL, MySQL, etc.)
+    engine = create_engine(settings.DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-Base = declarative_base()
+Base = SQLModel
 
 def get_db():
     db = SessionLocal()

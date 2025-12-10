@@ -1,33 +1,26 @@
-from sqlalchemy import Column, Integer, ForeignKey, Enum, DateTime
-from sqlalchemy.orm import relationship
-from sqlalchemy.dialects.postgresql import UUID
+from sqlmodel import SQLModel, Field
+from sqlalchemy import Integer, String, DateTime, Column
 from sqlalchemy.sql import func
 from pydantic import BaseModel
 import uuid
 import enum
 from datetime import datetime
-
-from .database import Base
-from .user import User
-from .chapter import Chapter
+from typing import Optional
 
 class ProgressStatus(str, enum.Enum):
     not_started = "not_started"
     in_progress = "in_progress"
     completed = "completed"
 
-class UserChapterProgress(Base):
+class UserChapterProgress(SQLModel, table=True):
     __tablename__ = "user_chapter_progress"
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"))
-    chapter_id = Column(Integer, ForeignKey("chapters.id"))
-    status = Column(Enum(ProgressStatus), default=ProgressStatus.not_started)
-    started_at = Column(DateTime(timezone=True), server_default=func.now())
-    completed_at = Column(DateTime(timezone=True), nullable=True)
-
-    user = relationship("User")
-    chapter = relationship("Chapter")
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    user_id: uuid.UUID = Field(foreign_key="users.id")
+    chapter_id: int = Field(foreign_key="chapters.id")
+    status: ProgressStatus = Field(sa_column=Column(String, default=ProgressStatus.not_started))
+    started_at: datetime = Field(sa_column=Column(DateTime(timezone=True), server_default=func.now()))
+    completed_at: Optional[datetime] = Field(sa_column=Column(DateTime(timezone=True), nullable=True))
 
 class UserChapterProgressBase(BaseModel):
     user_id: uuid.UUID

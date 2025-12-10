@@ -14,7 +14,7 @@ interface AuthState {
   user: UserProfile | null;
   loading: boolean;
   error: string | null;
-  login: (token: string) => void;
+  login: (accessToken: string, refreshToken: string) => void;
   logout: () => void;
   fetchUserProfile: () => void;
 }

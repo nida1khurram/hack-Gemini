@@ -1,31 +1,29 @@
-from sqlmodel import SQLModel, Field, Column
-from sqlalchemy import String, Text, DateTime
+from sqlmodel import SQLModel, Field
+from sqlalchemy import Integer, String, Text, DateTime, Column
 from sqlalchemy.sql import func
 from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
 
-class Chapter(SQLModel, table=True):
-    __tablename__ = "chapters"
+class Quiz(SQLModel, table=True):
+    __tablename__ = "quizzes"
 
     id: int = Field(default=None, primary_key=True)
-    module_id: int = Field(foreign_key="modules.id")
+    module_id: int = Field(foreign_key="modules.id")  # Foreign key to Module
     title: str = Field(sa_column=Column(String, index=True))
-    content_english: str = Field(sa_column=Column(Text))
-    content_urdu: Optional[str] = Field(sa_column=Column(Text, nullable=True))
+    description: Optional[str] = Field(sa_column=Column(Text, nullable=True))
     created_at: datetime = Field(sa_column=Column(DateTime(timezone=True), server_default=func.now()))
     updated_at: Optional[datetime] = Field(sa_column=Column(DateTime(timezone=True), onupdate=func.now()))
 
-class ChapterBase(BaseModel):
+class QuizBase(BaseModel):
     module_id: int
     title: str
-    content_english: str
-    content_urdu: str | None = None
+    description: str | None = None
 
-class ChapterCreate(ChapterBase):
+class QuizCreate(QuizBase):
     pass
 
-class ChapterInDB(ChapterBase):
+class QuizInDB(QuizBase):
     id: int
     created_at: datetime
     updated_at: datetime

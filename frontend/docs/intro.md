@@ -10,3 +10,4 @@ Begin your journey by understanding the foundational principles that govern inte
 
 ---
 
+<Chatbot />
