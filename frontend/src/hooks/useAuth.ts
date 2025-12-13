@@ -40,7 +40,7 @@ const useAuth = (): AuthState => {
         setUser(null);
         localStorage.removeItem('access_token');
       }
-    } catch (err). {
+    } catch (err) {
       console.error('Failed to fetch user profile:', err);
       setError('Session expired. Please log in again.');
       setIsAuthenticated(false);
