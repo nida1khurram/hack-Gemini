@@ -9,11 +9,14 @@ from dotenv import load_dotenv
 
 from .database import engine, settings # Import settings
 from sqlmodel import SQLModel
-from .api import auth
+# from .api import auth # Removed
 from .api import chatbot
-from .api import user
+from .api import user # This will be changed or removed later if fastapi-users handles user management
 from .api import translation # Import the translation router
-from .middleware.auth import get_current_user
+# from .middleware.auth import get_current_user # Removed
+from .models.user import UserRead, UserCreate, UserUpdate # New import for fastapi-users schemas
+from .services.user_service import auth_backend, fastapi_users, google_oauth_client, github_oauth_client # New import for fastapi-users instance and OAuth clients
+
 from . import models
 from typing import Annotated
 
@@ -69,7 +72,49 @@ async def rate_limit_exceeded_handler(request: Request, exc: Exception):
 
 from .api import translation, module, chapter, progress, quiz, chat_history
 
-app.include_router(auth.router, prefix="/auth", tags=["auth"])
+# Integrate fastapi-users routers
+app.include_router(
+    fastapi_users.get_auth_router(auth_backend),
+    prefix="/auth/jwt", # Using /auth/jwt for login to match contract, or /auth/bearer for bearer auth
+    tags=["auth"],
+)
+app.include_router(
+    fastapi_users.get_register_router(UserRead, UserCreate),
+    prefix="/auth",
+    tags=["auth"],
+)
+app.include_router(
+    fastapi_users.get_reset_password_router(),
+    prefix="/auth",
+    tags=["auth"],
+)
+app.include_router(
+    fastapi_users.get_verify_router(UserRead),
+    prefix="/auth",
+    tags=["auth"],
+)
+app.include_router(
+    fastapi_users.get_users_router(UserRead, UserUpdate),
+    prefix="/users",
+    tags=["users"],
+)
+
+# Integrate Google OAuth2 router
+app.include_router(
+    fastapi_users.get_oauth_router(google_oauth_client, auth_backend),
+    prefix="/auth/google", # Consistent with redirect_url in user_service.py
+    tags=["auth"],
+)
+
+# Integrate GitHub OAuth2 router
+app.include_router(
+    fastapi_users.get_oauth_router(github_oauth_client, auth_backend),
+    prefix="/auth/github", # Consistent with redirect_url in user_service.py
+    tags=["auth"],
+)
+
+
+# Existing routers (auth.router removed)
 app.include_router(chatbot.router, prefix="/chatbot", tags=["chatbot"])
 app.include_router(user.router, prefix="/user", tags=["user"])
 app.include_router(translation.router, prefix="/translate", tags=["translation"])
@@ -87,7 +132,7 @@ async def read_root():
 async def health_check():
     return {"status": "ok"}
 
-# Example of a protected route
-@app.get("/users/me")
-async def read_users_me(current_user: Annotated[models.User, Depends(get_current_user)]):
-    return current_user
+# Old protected route removed as fastapi-users provides its own /users/me
+# @app.get("/users/me")
+# async def read_users_me(current_user: Annotated[models.User, Depends(get_current_user)]):
+#     return current_user

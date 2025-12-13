@@ -3,6 +3,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlmodel import SQLModel
 
+# New imports for fastapi-users
+from fastapi_users.db import SQLAlchemyUserDatabase
+from .models.user import User # Assuming User model is in .models.user
+
 class Settings(BaseSettings):
     DATABASE_URL: str
     SECRET_KEY: str
@@ -41,3 +45,7 @@ def get_db():
         yield db
     finally:
         db.close()
+
+# Dependency for fastapi-users to get a user database instance
+def get_user_db(db: SessionLocal):
+    yield SQLAlchemyUserDatabase(db, User)
