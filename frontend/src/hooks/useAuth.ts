@@ -1,12 +1,14 @@
 import { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import { authService } from '../services/api';
 
 interface UserProfile {
   id: string;
   username: string;
   email: string;
   background: 'beginner' | 'intermediate' | 'expert';
+  is_active: boolean;
+  is_superuser: boolean;
+  is_verified: boolean;
 }
 
 interface AuthState {
@@ -14,109 +16,92 @@ interface AuthState {
   user: UserProfile | null;
   loading: boolean;
   error: string | null;
-  login: (accessToken: string, refreshToken: string) => void;
+  login: (email, password) => Promise<void>;
+  register: (email, password, username) => Promise<void>;
   logout: () => void;
-  fetchUserProfile: () => void;
 }
 
 const useAuth = (): AuthState => {
-  const { siteConfig } = useDocusaurusContext();
-  const backendUrl = siteConfig.customFields?.backendUrl || 'http://localhost:8000';
-
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const setAuthData = useCallback((accessToken: string, refreshToken: string) => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('access_token', accessToken);
-      localStorage.setItem('refresh_token', refreshToken); // Store refresh token
-    }
-    setIsAuthenticated(true);
-    // User profile will be fetched by useEffect when isAuthenticated becomes true
-  }, []); // Removed fetchUserProfile from dependencies
-
-  const clearAuthData = useCallback(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('refresh_token'); // Clear refresh token
-    }
-    setIsAuthenticated(false);
-    setUser(null);
-  }, []);
-
   const fetchUserProfile = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      let accessToken = null;
-      if (typeof window !== 'undefined') {
-        accessToken = localStorage.getItem('access_token');
-      }
-      if (!accessToken) {
-        clearAuthData();
-        return;
-      }
-      const response = await axios.get(`${backendUrl}/user/profile`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      setUser(response.data);
-      setIsAuthenticated(true);
-    } catch (err) {
-      if (axios.isAxiosError(err) && err.response?.status === 401) {
-        // Access token expired, try to refresh
-        const refreshToken = typeof window !== 'undefined' ? localStorage.getItem('refresh_token') : null;
-        if (refreshToken) {
-          try {
-            const refreshResponse = await axios.post(`${backendUrl}/auth/refresh`, {}, {
-              headers: {
-                Authorization: `Bearer ${refreshToken}`,
-              },
-            });
-            const newAccessToken = refreshResponse.data.access_token;
-            const newRefreshToken = refreshResponse.data.refresh_token;
-            if (typeof window !== 'undefined') {
-              localStorage.setItem('access_token', newAccessToken);
-              localStorage.setItem('refresh_token', newRefreshToken);
-            }
-            // Retry fetching user profile with new access token
-            await fetchUserProfile(); // Recursive call, but should resolve with new token
-            return;
-          } catch (refreshErr) {
-            console.error('Failed to refresh token:', refreshErr);
-            setError('Session expired. Please log in again.');
-            clearAuthData();
-          }
-        } else {
-          setError('Session expired. Please log in again.');
-          clearAuthData();
-        }
+      const currentUser = await authService.getCurrentUser();
+      if (currentUser) {
+        setUser(currentUser);
+        setIsAuthenticated(true);
       } else {
-        console.error('Failed to fetch user profile:', err);
-        setError('Failed to fetch user profile.');
-        clearAuthData();
+        setIsAuthenticated(false);
+        setUser(null);
+        localStorage.removeItem('access_token');
       }
+    } catch (err). {
+      console.error('Failed to fetch user profile:', err);
+      setError('Session expired. Please log in again.');
+      setIsAuthenticated(false);
+      setUser(null);
+      localStorage.removeItem('access_token');
     } finally {
       setLoading(false);
     }
-  }, [backendUrl, clearAuthData]);
+  }, []);
 
   useEffect(() => {
-    // Only fetch user profile if authenticated or if tokens exist on initial load
-    if (isAuthenticated || (typeof window !== 'undefined' && localStorage.getItem('access_token'))) {
+    // On initial load, check for a token and fetch the user profile
+    if (typeof window !== 'undefined' && localStorage.getItem('access_token')) {
       fetchUserProfile();
+    } else {
+      setLoading(false);
     }
-  }, [isAuthenticated, fetchUserProfile]); // Added isAuthenticated to dependency array
+  }, [fetchUserProfile]);
 
-  const login = (accessToken: string, refreshToken: string) => {
-    setAuthData(accessToken, refreshToken);
+  const login = async (email, password) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await authService.login(email, password);
+      localStorage.setItem('access_token', data.access_token);
+      await fetchUserProfile(); // Fetch user profile after successful login
+    } catch (err) {
+      console.error('Login failed:', err);
+      setError('Invalid email or password.');
+      throw err; // Re-throw error to be caught in the component
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  const register = async (email, password, username) => {
+    setLoading(true);
+    setError(null);
+    try {
+      await authService.register(email, password, username);
+      // After successful registration, log the user in
+      await login(email, password);
+    } catch (err) {
+      console.error('Registration failed:', err);
+      setError('Registration failed. Email may already be in use.');
+      throw err; // Re-throw error
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const logout = () => {
-    clearAuthData();
+  const logout = async () => {
+    try {
+      await authService.logout();
+    } catch (err) {
+      console.error('Logout failed:', err);
+    } finally {
+      localStorage.removeItem('access_token');
+      setIsAuthenticated(false);
+      setUser(null);
+    }
   };
 
   return {
@@ -125,8 +110,8 @@ const useAuth = (): AuthState => {
     loading,
     error,
     login,
+    register,
     logout,
-    fetchUserProfile,
   };
 };
 

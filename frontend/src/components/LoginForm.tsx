@@ -1,78 +1,94 @@
 import React, { useState, useCallback } from 'react';
-import axios from 'axios';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import useAuth from '../hooks/useAuth'; // Adjust path if necessary
+import useAuth from '../hooks/useAuth';
 
-import styles from './LoginForm.module.css'; // Assuming you'll create this for styling
+import styles from './LoginForm.module.css';
 
 const LoginForm: React.FC = () => {
-  const { siteConfig } = useDocusaurusContext();
-  const backendUrl = siteConfig.customFields?.backendUrl || 'http://localhost:8000';
   const auth = useAuth();
+  const [isRegister, setIsRegister] = useState(false);
 
-  const [username, setUsername] = useState<string>('');
+  // Form state
+  const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [username, setUsername] = useState<string>(''); // For registration
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = useCallback(async (event: React.FormEvent) => {
+  const handleLogin = useCallback(async (event: React.FormEvent) => {
     event.preventDefault();
     setLoading(true);
     setError(null);
-
     try {
-      // Make a POST request to the backend's /auth/token endpoint
-      const response = await axios.post(
-        `${backendUrl}/auth/token`,
-        new URLSearchParams({
-          username: username,
-          password: password,
-        }),
-        {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-        }
-      );
-
-      const { access_token, refresh_token } = response.data;
-      auth.login(access_token, refresh_token); // Use the login function from useAuth hook
+      await auth.login(email, password);
     } catch (err) {
+      setError('Invalid email or password.');
       console.error('Login failed:', err);
-      if (axios.isAxiosError(err) && err.response) {
-        if (err.response.status === 401) {
-          setError('Invalid username or password.');
-        } else {
-          setError(`Login failed: ${err.response.data.detail || err.message}`);
-        }
-      } else {
-        setError('An unexpected error occurred during login.');
-      }
     } finally {
       setLoading(false);
     }
-  }, [username, password, backendUrl, auth]);
+  }, [email, password, auth]);
+  
+  const handleRegister = useCallback(async (event: React.FormEvent) => {
+    event.preventDefault();
+    setLoading(true);
+    setError(null);
+    try {
+      await auth.register(email, password, username);
+    } catch (err) {
+      setError('Registration failed. Email may already be in use.');
+      console.error('Registration failed:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, [email, password, username, auth]);
 
+
+  if (auth.loading) {
+    return <div className={styles.loading}>Loading...</div>;
+  }
+  
   if (auth.isAuthenticated) {
-    return <div className={styles.loginSuccess}>You are already logged in as {auth.user?.username}.</div>;
+    return (
+      <div className={styles.loginSuccess}>
+        <p>You are logged in as {auth.user?.username || auth.user?.email}.</p>
+        <button onClick={() => auth.logout()} className={styles.logoutButton}>
+          Logout
+        </button>
+      </div>
+    );
   }
 
   return (
     <div className={styles.loginFormContainer}>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit} className={styles.loginForm}>
+      <div className={styles.tabs}>
+        <button onClick={() => setIsRegister(false)} className={!isRegister ? styles.activeTab : ''}>Login</button>
+        <button onClick={() => setIsRegister(true)} className={isRegister ? styles.activeTab : ''}>Register</button>
+      </div>
+
+      <form onSubmit={isRegister ? handleRegister : handleLogin} className={styles.loginForm}>
+        {isRegister && (
+          <div className={styles.formGroup}>
+            <label htmlFor="username">Username:</label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              disabled={loading}
+            />
+          </div>
+        )}
         <div className={styles.formGroup}>
-          <label htmlFor="username">Username:</label>
+          <label htmlFor="email">Email:</label>
           <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="testuser"
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
             disabled={loading}
           />
-          <div className={styles.credentialsHint}>Default: testuser</div>
         </div>
         <div className={styles.formGroup}>
           <label htmlFor="password">Password:</label>
@@ -81,15 +97,15 @@ const LoginForm: React.FC = () => {
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="testpass123"
             required
             disabled={loading}
           />
-          <div className={styles.credentialsHint}>Default: testpass123</div>
         </div>
         {error && <div className={styles.errorMessage}>{error}</div>}
+        {auth.error && <div className={styles.errorMessage}>{auth.error}</div>}
+        
         <button type="submit" disabled={loading} className={styles.loginButton}>
-          {loading ? 'Logging in...' : 'Login'}
+          {loading ? 'Processing...' : (isRegister ? 'Register' : 'Login')}
         </button>
       </form>
     </div>

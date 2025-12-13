@@ -19,6 +19,53 @@ const getBackendUrl = () => {
 
 const API_URL = getBackendUrl();
 
+// New Authentication Service
+export const authService = {
+  login: async (email, password) => {
+    const response = await axios.post(`${API_URL}/auth/jwt/login`, new URLSearchParams({
+      username: email, // fastapi-users uses 'username' for the email field in form data
+      password: password,
+    }), {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+    return response.data;
+  },
+
+  register: async (email, password, username) => {
+    const response = await axios.post(`${API_URL}/auth/register`, {
+      email,
+      password,
+      username,
+    });
+    return response.data;
+  },
+
+  logout: async () => {
+    const token = localStorage.getItem('access_token');
+    if (!token) return;
+    await axios.post(`${API_URL}/auth/jwt/logout`, {}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  },
+
+  getCurrentUser: async () => {
+    const token = localStorage.getItem('access_token');
+    if (!token) return null;
+    const response = await axios.get(`${API_URL}/users/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  },
+};
+
+
+// Existing API functions
 export const chatbotQuery = async (query: string, context?: string) => {
   const token = localStorage.getItem('access_token');
   if (!token) {
@@ -60,5 +107,3 @@ export const getChatHistory = async () => {
   });
   return response.data;
 };
-
-// Add other API functions here as needed
