@@ -35,13 +35,17 @@ const LoginForm: React.FC = () => {
     try {
       await auth.register(email, password, username);
     } catch (err) {
-      setError('Registration failed. Email may already be in use.');
+      setError('Registration failed. Email may already be in use. Please try logging in instead.');
       console.error('Registration failed:', err);
     } finally {
       setLoading(false);
     }
   }, [email, password, username, auth]);
 
+  const switchForm = () => {
+    setIsRegister(!isRegister);
+    setError(null);
+  };
 
   if (auth.loading) {
     return <div className={styles.loading}>Loading...</div>;
@@ -60,12 +64,9 @@ const LoginForm: React.FC = () => {
 
   return (
     <div className={styles.loginFormContainer}>
-      <div className={styles.tabs}>
-        <button onClick={() => setIsRegister(false)} className={!isRegister ? styles.activeTab : ''}>Login</button>
-        <button onClick={() => setIsRegister(true)} className={isRegister ? styles.activeTab : ''}>Register</button>
-      </div>
-
       <form onSubmit={isRegister ? handleRegister : handleLogin} className={styles.loginForm}>
+        <h2>{isRegister ? 'Register' : 'Login'}</h2>
+        
         {isRegister && (
           <div className={styles.formGroup}>
             <label htmlFor="username">Username:</label>
@@ -107,6 +108,14 @@ const LoginForm: React.FC = () => {
         <button type="submit" disabled={loading} className={styles.loginButton}>
           {loading ? 'Processing...' : (isRegister ? 'Register' : 'Login')}
         </button>
+
+        <div className={styles.switchForm}>
+          {isRegister ? (
+            <p>Already have an account? <button type="button" onClick={switchForm}>Login</button></p>
+          ) : (
+            <p>Don't have an account? <button type="button" onClick={switchForm}>Register</button></p>
+          )}
+        </div>
       </form>
     </div>
   );
