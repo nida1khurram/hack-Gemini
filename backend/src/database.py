@@ -10,8 +10,6 @@ from .models.user import User # Assuming User model is in .models.user
 class Settings(BaseSettings):
     DATABASE_URL: str
     SECRET_KEY: str
-    REFRESH_TOKEN_SECRET: str
-    REFRESH_TOKEN_EXPIRE_MINUTES: int
     OPENAI_API_KEY: str
     TRANSLATION_MODEL: str
     GEMINI_API_KEY: str
