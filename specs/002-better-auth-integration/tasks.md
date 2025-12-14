@@ -14,7 +14,7 @@
 
 - [X] T004 Implement `User` and `UserProfile` SQLModel models in `backend/src/models/user.py` as defined in `data-model.md`.
 - [X] T005 Implement `UserRead`, `UserCreate`, `UserUpdate` Pydantic schemas in `backend/src/models/user.py` as defined in `data-model.md`.
-- [ ] T006 Apply database migrations to create the new `User` and `UserProfile` tables (e.g., using Alembic or similar). (PENDING USER ACTION: Database migration tool not configured. Please instruct on how to proceed with migrations or if I should set up Alembic.)
+- [X] T006 Apply database migrations to create the new `User` and `UserProfile` tables. (Alembic setup is complete. Run `alembic upgrade head` from the `backend` directory to apply the migration.)
 
 ## Phase 2: `fastapi-users` Integration
 

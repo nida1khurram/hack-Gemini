@@ -1,4 +1,4 @@
-from .user import User, UserCreate, UserInDB, UserBackground
+from .user import User, UserCreate, UserBackground
 from .module import Module, ModuleCreate, ModuleInDB
 from .chapter import Chapter, ChapterCreate, ChapterInDB
 from .quiz import Quiz, QuizCreate, QuizInDB

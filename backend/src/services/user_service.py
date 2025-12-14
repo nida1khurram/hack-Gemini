@@ -1,18 +1,19 @@
 # backend/src/services/user_service.py
 
 import os
+import uuid # New import
 from typing import Optional
 from fastapi import Depends, Request
 from fastapi_users import BaseUserManager, FastAPIUsers
 from fastapi_users.authentication import BearerAuthentication, AuthenticationBackend
-from fastapi_users.authentication.oauth2 import GoogleOAuth2, GitHubOAuth2 # New import for GitHubOAuth2
+from fastapi_users.authentication.oauth2 import GoogleOAuth2, GitHubOAuth2
 
 from backend.src.models.user import User, UserCreate, UserUpdate, UserRead
 from backend.src.database import get_user_db, settings
 
 SECRET = settings.SECRET_KEY
 
-class UserManager(BaseUserManager[User, int]):
+class UserManager(BaseUserManager[User, uuid.UUID]): # Changed to uuid.UUID
     reset_password_token_secret = SECRET
     verification_token_secret = SECRET
 
@@ -45,7 +46,7 @@ GITHUB_CLIENT_ID = os.getenv("GITHUB_OAUTH_CLIENT_ID")
 GITHUB_CLIENT_SECRET = os.getenv("GITHUB_OAUTH_CLIENT_SECRET")
 github_oauth_client = GitHubOAuth2(GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, redirect_url="/auth/github/callback", name="github")
 
-fastapi_users = FastAPIUsers[User, int](
+fastapi_users = FastAPIUsers[User, uuid.UUID]( # Changed to uuid.UUID
     get_user_manager,
-    [auth_backend, google_oauth_client, github_oauth_client], # Add github_oauth_client here
+    [auth_backend, google_oauth_client, github_oauth_client],
 )

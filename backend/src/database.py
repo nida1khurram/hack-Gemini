@@ -21,9 +21,16 @@ class Settings(BaseSettings):
     Qdrant_END_POINT: str  # This is the variable name in your .env
     REDIS_HOST: str
     REDIS_PORT: int
+    
+    # New variables for OAuth and Qdrant
+    GOOGLE_OAUTH_CLIENT_ID: str
+    GOOGLE_OAUTH_CLIENT_SECRET: str
+    GITHUB_OAUTH_CLIENT_ID: str
+    GITHUB_OAUTH_CLIENT_SECRET: str
+    QDRANT_COLLECTION_NAME: str = "ai_textbook_chapters" # Provide a default value
 
     class Config:
-        env_file = "backend/.env"
+        env_file = ".env"
 
 settings = Settings()
 
