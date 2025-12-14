@@ -25,7 +25,7 @@ class Settings(BaseSettings):
     REDIS_PORT: int
 
     class Config:
-        env_file = ".env"
+        env_file = "backend/.env"
 
 settings = Settings()
 
