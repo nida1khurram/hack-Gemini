@@ -48,8 +48,7 @@ app.add_middleware(
 # Rate Limiter setup
 @app.on_event("startup")
 async def startup_event():
-    # Create database tables
-    SQLModel.metadata.create_all(bind=engine)
+    # SQLModel.metadata.create_all(bind=engine) # This is now handled by Alembic
     # Initialize FastAPI-Limiter with Redis
     try:
         redis = Redis(host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=0, encoding="utf-8", decode_responses=True)
