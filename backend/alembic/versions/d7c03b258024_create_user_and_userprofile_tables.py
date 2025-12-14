@@ -9,6 +9,7 @@ from typing import Sequence, Union
 
 from alembic import op
 import sqlalchemy as sa
+import sqlmodel # Add this import
 
 
 # revision identifiers, used by Alembic.
@@ -32,8 +33,8 @@ def upgrade() -> None:
     op.create_index(op.f('ix_modules_title'), 'modules', ['title'], unique=False)
     op.create_table('users',
     sa.Column('id', sa.Uuid(), nullable=False),
-    sa.Column('email', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
-    sa.Column('hashed_password', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
+    sa.Column('email', sa.String(), nullable=False),
+    sa.Column('hashed_password', sa.String(), nullable=False),
     sa.Column('is_active', sa.Boolean(), nullable=False),
     sa.Column('is_superuser', sa.Boolean(), nullable=False),
     sa.Column('is_verified', sa.Boolean(), nullable=False),
@@ -83,7 +84,7 @@ def upgrade() -> None:
     )
     op.create_table('userprofile',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('username', sqlmodel.sql.sqltypes.AutoString(), nullable=False),
+    sa.Column('username', sa.String(), nullable=False),
     sa.Column('background', sa.Enum('beginner', 'intermediate', 'expert', name='userbackground'), nullable=False),
     sa.Column('user_id', sa.Uuid(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
