@@ -1,11 +1,12 @@
 import React, { useState, useCallback } from 'react';
 import useAuth from '../hooks/useAuth';
+import { signIn } from 'next-auth/react'; // For social login redirects
 
 import styles from './LoginForm.module.css';
 
 const LoginForm: React.FC = () => {
   const auth = useAuth();
-  const [isRegister, setIsRegister] = useState(false);
+  const [isRegister, setIsRegister] = useState(false); // Keep for now for UI toggle
 
   // Form state
   const [email, setEmail] = useState<string>('');
@@ -21,7 +22,7 @@ const LoginForm: React.FC = () => {
     try {
       await auth.login(email, password);
     } catch (err) {
-      setError('Invalid email or password.');
+      setError(err.message || 'Login failed.');
       console.error('Login failed:', err);
     } finally {
       setLoading(false);
@@ -35,12 +36,20 @@ const LoginForm: React.FC = () => {
     try {
       await auth.register(email, password, username);
     } catch (err) {
-      setError('Registration failed. Email may already be in use. Please try logging in instead.');
+      setError(err.message || 'Registration failed.');
       console.error('Registration failed:', err);
     } finally {
       setLoading(false);
     }
   }, [email, password, username, auth]);
+
+  const handleGoogleLogin = useCallback(() => {
+    signIn('google', { callbackUrl: '/' }); // Redirect to homepage after login
+  }, []);
+
+  const handleGitHubLogin = useCallback(() => {
+    signIn('github', { callbackUrl: '/' }); // Redirect to homepage after login
+  }, []);
 
   const switchForm = () => {
     setIsRegister(!isRegister);
@@ -54,7 +63,7 @@ const LoginForm: React.FC = () => {
   if (auth.isAuthenticated) {
     return (
       <div className={styles.loginSuccess}>
-        <p>You are logged in as {auth.user?.username || auth.user?.email}.</p>
+        <p>You are logged in as {auth.user?.name || auth.user?.email}.</p>
         <button onClick={() => auth.logout()} className={styles.logoutButton}>
           Logout
         </button>
@@ -108,6 +117,11 @@ const LoginForm: React.FC = () => {
         <button type="submit" disabled={loading} className={styles.loginButton}>
           {loading ? 'Processing...' : (isRegister ? 'Register' : 'Login')}
         </button>
+
+        <div className={styles.socialLogin}>
+            <button type="button" onClick={handleGoogleLogin} disabled={loading}>Login with Google</button>
+            <button type="button" onClick={handleGitHubLogin} disabled={loading}>Login with GitHub</button>
+        </div>
 
         <div className={styles.switchForm}>
           {isRegister ? (

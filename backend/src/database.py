@@ -3,9 +3,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlmodel import SQLModel
 
-# New imports for fastapi-users
-from fastapi_users.db import SQLAlchemyUserDatabase
-from .models.user import User # Assuming User model is in .models.user
+# Removed New imports for fastapi-users
+# from fastapi_users.db import SQLAlchemyUserDatabase
+# from .models.user import User # User will be defined differently later
 
 class Settings(BaseSettings):
     DATABASE_URL: str
@@ -51,6 +51,6 @@ def get_db():
     finally:
         db.close()
 
-# Dependency for fastapi-users to get a user database instance
-def get_user_db(db: SessionLocal):
-    yield SQLAlchemyUserDatabase(db, User)
+# Removed Dependency for fastapi-users
+# def get_user_db(db: SessionLocal):
+#     yield SQLAlchemyUserDatabase(db, User)

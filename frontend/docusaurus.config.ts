@@ -15,12 +15,14 @@ const config: Config = {
   trailingSlash: true, // Add this line to explicitly handle trailing slashes
 
   customFields: {
-    backendUrl: process.env.BACKEND_URL || 'http://localhost:8002', // Default to localhost for development
+    NODE_BACKEND_URL: process.env.NODE_BACKEND_URL || 'http://localhost:3001',
+    PYTHON_BACKEND_URL: process.env.PYTHON_BACKEND_URL || 'http://localhost:8000',
   },
 
   // Inject the BACKEND_URL as a global variable for the browser
   clientModules: [
     './src/clientModules/injectBackendUrl.js', // Custom client module to inject BACKEND_URL
+    require.resolve('./src/theme/Root'), // Add our custom Root component for SessionProvider
   ],
 
   // GitHub pages deployment config.
