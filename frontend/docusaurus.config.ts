@@ -16,13 +16,12 @@ const config: Config = {
 
   customFields: {
     NODE_BACKEND_URL: process.env.NODE_BACKEND_URL || 'http://localhost:3001',
-    PYTHON_BACKEND_URL: process.env.PYTHON_BACKEND_URL || 'http://localhost:8000',
+    PYTHON_BACKEND_URL: process.env.PYTHON_BACKEND_URL || 'http://localhost:8003',
   },
 
   // Inject the BACKEND_URL as a global variable for the browser
   clientModules: [
     './src/clientModules/injectBackendUrl.js', // Custom client module to inject BACKEND_URL
-    require.resolve('./src/theme/Root'), // Add our custom Root component for SessionProvider
   ],
 
   // GitHub pages deployment config.
@@ -90,12 +89,6 @@ const config: Config = {
           href: 'https://github.com/nida1khurram/hack-Gemini/tree/main',
           label: 'GitHub',
           position: 'right',
-        },
-        {
-          label: 'Login', // Custom login button
-          to: '/docs/login', // You might want to create a login page or link to an auth service
-          position: 'right',
-          className: 'navbar-login-btn', // Optional: for custom styling
         },
       ],
     },

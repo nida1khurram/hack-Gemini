@@ -6,6 +6,9 @@
 if (typeof window !== 'undefined') {
   // Since process.env is not available in the browser, we'll use a fixed value for development
   // In production, this would need to be configured differently
-  window.BACKEND_URL = 'http://localhost:8002';
-  console.log('Backend URL set to:', window.BACKEND_URL);
+  window.BACKEND_URL = 'http://localhost:8000';
+  window.PYTHON_BACKEND_URL = 'http://localhost:8003';
+  window.NODE_BACKEND_URL = 'http://localhost:3001';
+  console.log('Python Backend URL set to:', window.PYTHON_BACKEND_URL);
+  console.log('Node Backend URL set to:', window.NODE_BACKEND_URL);
 }

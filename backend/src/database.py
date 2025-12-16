@@ -21,7 +21,8 @@ class Settings(BaseSettings):
     Qdrant_END_POINT: str  # This is the variable name in your .env
     REDIS_HOST: str
     REDIS_PORT: int
-    
+    jwt_auth_secret: str
+
     # New variables for OAuth and Qdrant
     GOOGLE_OAUTH_CLIENT_ID: str
     GOOGLE_OAUTH_CLIENT_SECRET: str
