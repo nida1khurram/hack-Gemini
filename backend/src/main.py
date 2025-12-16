@@ -9,11 +9,12 @@ from dotenv import load_dotenv
 
 from .database import engine, settings # Import settings
 from sqlmodel import SQLModel
-from .api import auth
+from .api import auth # Re-added
 from .api import chatbot
 from .api import user
-from .api import translation # Import the translation router
-from .middleware.auth import get_current_user
+from .api import translation
+from .middleware.auth import get_current_user_from_jwt, TokenData # New import for JWT middleware
+
 from . import models
 from typing import Annotated
 
@@ -45,8 +46,9 @@ app.add_middleware(
 # Rate Limiter setup
 @app.on_event("startup")
 async def startup_event():
-    # Create database tables
-    SQLModel.metadata.create_all(bind=engine)
+    # This is now handled by Alembic, but we don't have Alembic in Python backend anymore.
+    # For now, let's keep it commented, and the user can decide how to create tables for Python backend.
+    # SQLModel.metadata.create_all(bind=engine)
     # Initialize FastAPI-Limiter with Redis
     try:
         redis = Redis(host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=0, encoding="utf-8", decode_responses=True)
@@ -69,6 +71,7 @@ async def rate_limit_exceeded_handler(request: Request, exc: Exception):
 
 from .api import translation, module, chapter, progress, quiz, chat_history
 
+# Existing routers (auth.router re-added)
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(chatbot.router, prefix="/chatbot", tags=["chatbot"])
 app.include_router(user.router, prefix="/user", tags=["user"])
@@ -87,7 +90,7 @@ async def read_root():
 async def health_check():
     return {"status": "ok"}
 
-# Example of a protected route
-@app.get("/users/me")
-async def read_users_me(current_user: Annotated[models.User, Depends(get_current_user)]):
-    return current_user
+# New protected route using JWT verification from Node.js Auth.js
+@app.get("/protected-python")
+async def protected_route(current_user: Annotated[TokenData, Depends(get_current_user_from_jwt)]):
+    return {"message": f"Hello {current_user.email} from Python backend! You are authenticated."}

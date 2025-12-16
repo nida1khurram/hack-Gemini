@@ -1,0 +1,7 @@
+build/
+dist/
+node_modules/
+.docusaurus/
+package-lock.json
+yarn.lock
+npm-debug.log*

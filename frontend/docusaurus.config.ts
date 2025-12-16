@@ -15,7 +15,8 @@ const config: Config = {
   trailingSlash: true, // Add this line to explicitly handle trailing slashes
 
   customFields: {
-    backendUrl: process.env.BACKEND_URL || 'http://localhost:8002', // Default to localhost for development
+    NODE_BACKEND_URL: process.env.NODE_BACKEND_URL || 'http://localhost:3001',
+    PYTHON_BACKEND_URL: process.env.PYTHON_BACKEND_URL || 'http://localhost:8003',
   },
 
   // Inject the BACKEND_URL as a global variable for the browser
@@ -88,12 +89,6 @@ const config: Config = {
           href: 'https://github.com/nida1khurram/hack-Gemini/tree/main',
           label: 'GitHub',
           position: 'right',
-        },
-        {
-          label: 'Login', // Custom login button
-          to: '/docs/login', // You might want to create a login page or link to an auth service
-          position: 'right',
-          className: 'navbar-login-btn', // Optional: for custom styling
         },
       ],
     },

@@ -8,12 +8,12 @@ import BrowserOnly from '@docusaurus/BrowserOnly';
 
 # User Login
 
-## Default Credentials
 
-For testing purposes, you can use the following credentials:
 
-- **Username**: `testuser`
-- **Password**: `testpass123`
+
+
+
+
 
 <BrowserOnly>
   {() => (

@@ -1,44 +1,28 @@
-from sqlmodel import SQLModel, Field
-from sqlalchemy import String, DateTime, Column
-from sqlalchemy.sql import func
-from pydantic import BaseModel
-from datetime import datetime
+from typing import Optional
 import uuid
 import enum
-from typing import Optional
+
+from sqlmodel import Field, SQLModel, Column, String
+from pydantic import BaseModel # Keep BaseModel for now for UserCreate, UserInDB
 
 class UserBackground(str, enum.Enum):
     beginner = "beginner"
     intermediate = "intermediate"
     expert = "expert"
 
+# Reverted to a simpler User model
 class User(SQLModel, table=True):
-    __tablename__ = "users"
-
+    __tablename__ = "users" # Keep the table name as "users" for existing foreign keys
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     username: str = Field(sa_column=Column(String, unique=True, index=True))
     email: str = Field(sa_column=Column(String, unique=True, index=True))
-    hashed_password: str = Field(sa_column=Column(String))
-    hashed_refresh_token: Optional[str] = Field(sa_column=Column(String, nullable=True))  # New field
-    refresh_token_expires_at: Optional[datetime] = Field(sa_column=Column(DateTime(timezone=True), nullable=True))  # New field
+    # Removed hashed_password, is_active, is_superuser, is_verified as they are handled by Node.js auth
     background: UserBackground = Field(sa_column=Column(String, default=UserBackground.beginner))
-    created_at: datetime = Field(sa_column=Column(DateTime(timezone=True), server_default=func.now()))
-    updated_at: Optional[datetime] = Field(sa_column=Column(DateTime(timezone=True), onupdate=func.now()))
 
+# UserCreate schema (for creating users, maybe for chatbot internal use if needed)
 class UserCreate(BaseModel):
     username: str
     email: str
-    password: str
     background: UserBackground = UserBackground.beginner
 
-class UserInDB(BaseModel):
-    id: uuid.UUID
-    username: str
-    email: str
-    background: UserBackground
-    created_at: datetime
-    updated_at: datetime
-
-    class Config:
-        from_attributes = True
-
+# No need for UserRead, UserUpdate, UserProfile if not directly managed by this backend

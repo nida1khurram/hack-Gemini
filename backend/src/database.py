@@ -3,11 +3,13 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlmodel import SQLModel
 
+# Removed New imports for fastapi-users
+# from fastapi_users.db import SQLAlchemyUserDatabase
+# from .models.user import User # User will be defined differently later
+
 class Settings(BaseSettings):
     DATABASE_URL: str
     SECRET_KEY: str
-    REFRESH_TOKEN_SECRET: str
-    REFRESH_TOKEN_EXPIRE_MINUTES: int
     OPENAI_API_KEY: str
     TRANSLATION_MODEL: str
     GEMINI_API_KEY: str
@@ -19,6 +21,14 @@ class Settings(BaseSettings):
     Qdrant_END_POINT: str  # This is the variable name in your .env
     REDIS_HOST: str
     REDIS_PORT: int
+    jwt_auth_secret: str
+
+    # New variables for OAuth and Qdrant
+    GOOGLE_OAUTH_CLIENT_ID: str
+    GOOGLE_OAUTH_CLIENT_SECRET: str
+    GITHUB_OAUTH_CLIENT_ID: str
+    GITHUB_OAUTH_CLIENT_SECRET: str
+    QDRANT_COLLECTION_NAME: str = "ai_textbook_chapters" # Provide a default value
 
     class Config:
         env_file = ".env"
@@ -41,3 +51,7 @@ def get_db():
         yield db
     finally:
         db.close()
+
+# Removed Dependency for fastapi-users
+# def get_user_db(db: SessionLocal):
+#     yield SQLAlchemyUserDatabase(db, User)
