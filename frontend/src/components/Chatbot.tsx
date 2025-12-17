@@ -4,6 +4,7 @@ import { chatbotQuery } from '../services/api'; // Import the API service withou
 
 interface ChatbotProps {
   selectedText?: string;
+  hideWhenGlobalAvailable?: boolean; // New prop to control visibility when global chatbot is available
 }
 
 interface ChatMessage {
@@ -11,10 +12,15 @@ interface ChatMessage {
   content: string;
 }
 
-const Chatbot: React.FC<ChatbotProps> = ({ selectedText }) => {
+const Chatbot: React.FC<ChatbotProps> = ({ selectedText, hideWhenGlobalAvailable = false }) => {
   const { siteConfig } = useDocusaurusContext();
   const backendUrl = siteConfig.customFields?.backendUrl || 'http://localhost:8000';
   console.log('Chatbot: Using backendUrl:', backendUrl);
+
+  // Check if we should hide this inline chatbot when global one is available
+  if (hideWhenGlobalAvailable) {
+    return null; // Don't render anything if global chatbot is available and we should hide
+  }
 
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
