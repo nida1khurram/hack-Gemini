@@ -1,14 +1,15 @@
-// frontend/src/theme/Root.tsx
+// frontend/src/theme/Root.tsx - Updated to include global chatbot
 
 import React from 'react';
-import { SessionProvider } from 'next-auth/react';
+import ChatbotProvider from '../components/ChatbotProvider';
 
-// Default implementation, that you can customize
+// Root component with global chatbot toggle
 function Root({children}) {
   return (
-    <SessionProvider>
+    <>
       {children}
-    </SessionProvider>
+      <ChatbotProvider />
+    </>
   );
 }
 
