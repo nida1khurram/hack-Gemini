@@ -100,4 +100,3 @@ Typically batteries (e.g., LiPo) for mobile operation, providing power to all el
 
 ---
 
-<Chatbot />

@@ -1,57 +1,55 @@
-<!--
-Sync Impact Report:
-- Version change: 0.0.0 -> 1.0.0
-- Added sections: Core Principles, Key Standards, Project Constraints & Success Criteria, Governance
-- Removed sections: None
-- Templates requiring updates:
-  - ✅ .specify/templates/plan-template.md
-  - ✅ .specify/templates/spec-template.md
-  - ✅ .specify/templates/tasks-template.md
-- Follow-up TODOs: None
--->
-# AI-Native Textbook on Physical AI & Humanoid Robotics Constitution
+# [PROJECT_NAME] Constitution
+<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
 
 ## Core Principles
 
-### Academic Rigor with Industry Relevance
-All technical concepts must be traceable to official documentation or peer-reviewed sources. Citation format: APA style for academic references. Source types: Mix of peer-reviewed papers, official documentation (ROS 2, NVIDIA), and industry best practices.
+### [PRINCIPLE_1_NAME]
+<!-- Example: I. Library-First -->
+[PRINCIPLE_1_DESCRIPTION]
+<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
 
-### Hands-On, Project-Based Learning
-Code examples: Must be executable with clear setup instructions. Minimum 50 code examples with working implementations. Must include assessment questions and project ideas for each module.
+### [PRINCIPLE_2_NAME]
+<!-- Example: II. CLI Interface -->
+[PRINCIPLE_2_DESCRIPTION]
+<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
 
-### Accessibility and Clarity
-Accessibility across skill levels (beginners to advanced). Language clarity: Flesch-Kincaid grade 12-14 (university level). Visual content: Include diagrams, screenshots, and simulation visualizations.
+### [PRINCIPLE_3_NAME]
+<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
+[PRINCIPLE_3_DESCRIPTION]
+<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
 
-### Verifiable Claims
-All claims about hardware performance must be verified with manufacturer specifications.
+### [PRINCIPLE_4_NAME]
+<!-- Example: IV. Integration Testing -->
+[PRINCIPLE_4_DESCRIPTION]
+<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
 
-## Key Standards
+### [PRINCIPLE_5_NAME]
+<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
+[PRINCIPLE_5_DESCRIPTION]
+<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
 
-All technical concepts must be traceable to official documentation or peer-reviewed sources.
-- **Citation Format**: APA style for academic references.
-- **Source Types**: Mix of peer-reviewed papers, official documentation (ROS 2, NVIDIA), and industry best practices.
-- **Code Examples**: Must be executable with clear setup instructions.
-- **Visual Content**: Include diagrams, screenshots, and simulation visualizations.
-- **Language Clarity**: Flesch-Kincaid grade 12-14 (university level).
-- **Hardware Claims**: All claims about hardware performance must be verified with manufacturer specifications.
+### [PRINCIPLE_6_NAME]
 
-## Project Constraints & Success Criteria
 
-**Constraints:**
-- **Book Length**: 15-20 chapters, 300-400 pages equivalent.
-- **Code Examples**: Minimum 50 code examples with working implementations.
-- **Assessments**: Must include assessment questions and project ideas for each module.
-- **Format**: Docusaurus markdown with interactive elements.
-- **Timeline**: Hackathon submission by Nov 30, 2025.
+[PRINCIPLE__DESCRIPTION]
 
-**Success Criteria:**
-- Complete Docusaurus book deployed to GitHub Pages.
-- Integrated RAG chatbot answering questions about book content.
-- All code examples tested and verified.
-- Clear learning progression from basics to capstone project.
+## [SECTION_2_NAME]
+<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+
+[SECTION_2_CONTENT]
+<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+
+## [SECTION_3_NAME]
+<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+
+[SECTION_3_CONTENT]
+<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
 
 ## Governance
+<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-This constitution governs the development of the 'AI-Native Textbook on Physical AI & Humanoid Robotics' project. Amendments require documentation and approval. All contributions must align with the principles and standards outlined herein.
+[GOVERNANCE_RULES]
+<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
 
-**Version**: 1.0.0 | **Ratified**: 2025-12-01 | **Last Amended**: 2025-12-01
+**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
+<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->

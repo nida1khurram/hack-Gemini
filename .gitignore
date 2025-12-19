@@ -43,3 +43,7 @@ Thumbs.db
 
 # Ignore nul device file (Windows)
 nul
+
+# Qdrant local storage
+backend/qdrant_local/
+qdrant_local/

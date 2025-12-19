@@ -31,10 +31,7 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-- [ ] **Academic Rigor**: Are all technical concepts traceable to official documentation or peer-reviewed sources?
-- [ ] **Hands-On Learning**: Does the feature include executable code examples with clear setup?
-- [ ] **Accessibility & Clarity**: Is the language clear (Grade 12-14) and are visuals included where necessary?
-- [ ] **Verifiable Claims**: Are any performance or hardware claims backed by manufacturer specs?
+[Gates determined based on constitution file]
 
 ## Project Structure
 

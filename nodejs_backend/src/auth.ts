@@ -1,15 +1,16 @@
 // nodejs_backend/src/auth.ts
 
-import { Auth } from '@auth/core';
+import { Auth, type AuthConfig } from '@auth/core';
 import Google from '@auth/core/providers/google';
-import GitHub from '@auth/core/providers/github';
+import GitHub from '@auth/core/providers/github'; // Fixed: removed duplicate 'from'
 import { PrismaAdapter } from '@auth/prisma-adapter';
-import { PrismaClient } from './generated/prisma/index'; // Corrected path
-import 'dotenv/config'; // Use dotenv/config for loading .env
+import { PrismaClient } from './generated/prisma/client'; // Use the client file directly
+import 'dotenv/config';
 
 const prisma = new PrismaClient();
 
-export const auth = Auth({
+// Export the AuthConfig object
+export const authConfig: AuthConfig = {
   adapter: PrismaAdapter(prisma),
   providers: [
     Google({
@@ -37,17 +38,13 @@ export const auth = Auth({
     // },
   },
   session: {
-    // Use JSON Web Tokens for session instead of database sessions.
-    // This option is important for making the JWT available to the Python backend.
     strategy: 'jwt',
   },
   jwt: {
-    // You can define your own secret for JWTs.
-    // This secret must be shared with the Python backend for verification.
-    secret: process.env.AUTH_SECRET as string,
+    // Removed: secret: process.env.AUTH_SECRET as string,
   },
   secret: process.env.AUTH_SECRET as string, // Master secret for Auth.js
   pages: {
-    signIn: '/api/auth/signin', // Custom sign-in page if needed
+    signIn: '/api/auth/signin',
   },
-});
+};

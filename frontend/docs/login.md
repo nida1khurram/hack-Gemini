@@ -1,26 +1,8 @@
 ---
-title: Login
-sidebar_label: Login
+title: Welcome
+sidebar_label: Welcome
 ---
 
-import LoginForm from '@site/src/components/LoginForm';
-import BrowserOnly from '@docusaurus/BrowserOnly';
+# Welcome to the Physical AI & Humanoid Robotics Book
 
-# User Login
-
-
-
-
-
-
-
-
-<BrowserOnly>
-  {() => (
-    <LoginForm />
-  )}
-</BrowserOnly>
-
-## Need an Account?
-
-If you don't have an account, you can register using the registration API endpoints.
+Browse the modules in the sidebar to begin learning about ROS 2, Humanoid Robotics, AI Integration, and Advanced Topics.

@@ -9,12 +9,8 @@ from dotenv import load_dotenv
 
 from .database import engine, settings # Import settings
 from sqlmodel import SQLModel
-from .api import auth # Re-added
 from .api import chatbot
-from .api import user
-from .api import translation
-from .middleware.auth import get_current_user_from_jwt, TokenData # New import for JWT middleware
-
+from .api import translation  # Removed user API
 from . import models
 from typing import Annotated
 
@@ -71,10 +67,8 @@ async def rate_limit_exceeded_handler(request: Request, exc: Exception):
 
 from .api import translation, module, chapter, progress, quiz, chat_history
 
-# Existing routers (auth.router re-added)
-app.include_router(auth.router, prefix="/auth", tags=["auth"])
+# Existing routers (auth.router and user.router removed since no auth module exists)
 app.include_router(chatbot.router, prefix="/chatbot", tags=["chatbot"])
-app.include_router(user.router, prefix="/user", tags=["user"])
 app.include_router(translation.router, prefix="/translate", tags=["translation"])
 app.include_router(module.router, prefix="/modules", tags=["modules"])
 app.include_router(chapter.router, prefix="/chapters", tags=["chapters"])
@@ -89,8 +83,3 @@ async def read_root():
 @app.get("/health")
 async def health_check():
     return {"status": "ok"}
-
-# New protected route using JWT verification from Node.js Auth.js
-@app.get("/protected-python")
-async def protected_route(current_user: Annotated[TokenData, Depends(get_current_user_from_jwt)]):
-    return {"message": f"Hello {current_user.email} from Python backend! You are authenticated."}

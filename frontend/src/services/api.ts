@@ -20,7 +20,8 @@ const getPythonBackendUrl = () => {
   if (typeof window !== 'undefined' && (window as any).PYTHON_BACKEND_URL) {
     return (window as any).PYTHON_BACKEND_URL;
   }
-  return 'http://localhost:8003'; // Default Python backend port
+  // Use the correct port where our Python backend is running
+  return 'http://localhost:8015'; // Python backend with RAG functionality
 };
 
 const PYTHON_API_URL = getPythonBackendUrl();

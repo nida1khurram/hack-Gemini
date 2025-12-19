@@ -19,7 +19,7 @@ const FloatingChatbotToggle: React.FC<FloatingChatbotToggleProps> = ({ onToggle,
   }, []);
 
   return (
-    <div className={`floating-chatbot-toggle ${isVisible ? 'show' : ''} ${isOpen ? 'open' : ''}`}>
+    <div className={`floating-chatbot-toggle ${!isVisible ? 'hidden' : ''} ${isOpen ? 'open' : ''}`}>
       <button
         className="toggle-button"
         onClick={onToggle}

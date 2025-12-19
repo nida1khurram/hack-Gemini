@@ -1,7 +1,8 @@
 // nodejs_backend/src/index.ts
 
 import express from 'express';
-import { auth } from './auth'; // Import Auth.js setup
+import { Auth } from '@auth/core'; // Import Auth function
+import { authConfig } from './auth'; // Import AuthConfig setup
 import cookieParser from 'cookie-parser'; // For parsing cookies
 import jwt from 'jsonwebtoken'; // For JWT verification
 
@@ -13,8 +14,19 @@ app.use(cookieParser());
 
 // Auth.js route handler
 app.all('/api/auth/*', async (req, res) => {
-  await auth(req, res);
+  const request = new Request(req.url, {
+    headers: new Headers(req.headers as HeadersInit),
+    method: req.method,
+    body: req.body ? JSON.stringify(req.body) : undefined, // Handle body for POST, PUT, etc.
+  });
+
+  // Call Auth.js core handler
+  const response = await Auth(request, authConfig);
+
+  // Transfer response back to Express
+  res.status(response.status).set(Object.fromEntries(response.headers.entries())).send(await response.text());
 });
+
 
 // Extend Request type to include user property
 declare global {

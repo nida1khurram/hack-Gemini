@@ -1,5 +1,4 @@
 import React from 'react';
-import useAuth from '../hooks/useAuth';
 
 interface ConditionalContentProps {
   allowedBackgrounds: ('beginner' | 'intermediate' | 'expert')[];
@@ -7,16 +6,8 @@ interface ConditionalContentProps {
 }
 
 const ConditionalContent: React.FC<ConditionalContentProps> = ({ allowedBackgrounds, children }) => {
-  const { user, loading: authLoading } = useAuth();
-
-  if (authLoading) {
-    return <p>Loading personalized content...</p>;
-  }
-
-  if (!user || !allowedBackgrounds.includes(user.background)) {
-    return null; // Don't render if user is not authenticated or background not allowed
-  }
-
+  // For now, show content to all users (removed authentication requirement)
+  // In the future, this could be based on user preferences or other non-auth factors
   return <>{children}</>;
 };
 
