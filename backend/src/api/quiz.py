@@ -5,7 +5,6 @@ from pydantic import BaseModel
 
 from .. import models
 from ..database import get_db
-from ..middleware.auth import get_current_user
 
 router = APIRouter()
 
@@ -16,27 +15,21 @@ class QuizAttemptRequest(BaseModel):
 @router.post("/attempts/", response_model=models.UserQuizAttemptInDB)
 async def submit_quiz_attempt(
     request: QuizAttemptRequest,
-    db: Session = Depends(get_db),
-    current_user: models.User = Depends(get_current_user)
+    db: Session = Depends(get_db)
 ):
-    attempt = models.UserQuizAttempt(
-        user_id=current_user.id,
-        quiz_id=request.quiz_id,
-        score=request.score
+    # For now, this requires a user ID to be passed differently since auth is removed
+    raise HTTPException(
+        status_code=501,
+        detail="Quiz attempts require user authentication which has been removed"
     )
-    db.add(attempt)
-    db.commit()
-    db.refresh(attempt)
-    return attempt
 
 @router.get("/attempts/{quiz_id}", response_model=List[models.UserQuizAttemptInDB])
 async def get_quiz_attempts(
     quiz_id: int,
-    db: Session = Depends(get_db),
-    current_user: models.User = Depends(get_current_user)
+    db: Session = Depends(get_db)
 ):
-    attempts = db.query(models.UserQuizAttempt).filter(
-        models.UserQuizAttempt.user_id == current_user.id,
-        models.UserQuizAttempt.quiz_id == quiz_id
-    ).all()
-    return attempts
+    # For now, this requires a user ID to be passed differently since auth is removed
+    raise HTTPException(
+        status_code=501,
+        detail="Quiz attempts require user authentication which has been removed"
+    )

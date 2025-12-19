@@ -7,4 +7,3 @@ This is the introductory page for Module 1, focusing on ROS 2.
 
 ---
 
-<Chatbot />

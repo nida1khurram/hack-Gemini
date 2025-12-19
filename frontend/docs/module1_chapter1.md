@@ -205,4 +205,3 @@ ros2 run my_ros2_package my_subscriber
 
 ---
 
-<Chatbot />

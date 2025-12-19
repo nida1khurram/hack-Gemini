@@ -22,6 +22,7 @@ class Settings(BaseSettings):
     REDIS_HOST: str
     REDIS_PORT: int
     jwt_auth_secret: str
+    COHERE_API_KEY: str  # Add Cohere API key
 
     # New variables for OAuth and Qdrant
     GOOGLE_OAUTH_CLIENT_ID: str
